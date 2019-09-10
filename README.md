@@ -1,6 +1,7 @@
 Installing Node.js(via HomeBrew):
 <br />
-	1) Install HomeBrew: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	1) Install HomeBrew: ```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
+<br />
 	2) To install node: run ```brew install node```
 
 
