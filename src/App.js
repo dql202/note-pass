@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
+import Header from './Header';
 import './App.css';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 
+
+/* 
+    The buttons on the homepage that allow users to 
+    upload notes, take notes, and manage their notes.
+*/
+class NotePassButtons extends React.Component {
+    render() {
+        return (
+            <div>
+                <ButtonToolbar>
+                    <Button variant="primary" size="lg">
+                        Take Notes
+                    </Button>
+                    <Button variant="secondary" size="lg">
+                        Upload Notes
+                    </Button>
+                    <Button variant="primary" size="lg">
+                        Manage Notes
+                    </Button>
+                </ButtonToolbar>
+            </div>
+        );
+    }
+}
+
+/*
+    The driver for the web app. Displays the components
+    for the homepage in the correct order.
+*/
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Header />
+            <NotePassButtons />
+        </div>
+    );
 }
 
 export default App;
