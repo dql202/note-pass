@@ -4,6 +4,12 @@ Installing Node.js(via HomeBrew):
 <br />
 	2) To install node: run ```brew install node```
 
+Confirm npm and node are installed:
+<br />
+	1) run: ```npm --version```
+<br />
+	2) run: ```node --version```
+<br />
 
 Installing packages:
 <br />
