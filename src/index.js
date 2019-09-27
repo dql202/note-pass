@@ -5,12 +5,12 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 // Components
 import './index.css';
-import Home from './Home';
-import NavBar from './NavBar';
-import Profile from './Profile'
-import Manage from './notes/Manage'
-import Take from './notes/Take'
-import Upload from './notes/Upload'
+import Home from './components/Home';
+import NavBar from './components/NavBar';
+import Profile from './components/Profile'
+import Manage from './components/Manage'
+import Take from './components/Take'
+import Upload from './components/Upload'
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
