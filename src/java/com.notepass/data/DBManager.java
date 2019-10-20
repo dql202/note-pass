@@ -133,7 +133,6 @@ public class DBManager {
     /**
      * @return an ArrayList of Request objects made from data in Requests table
      */
-    /*
     public ArrayList<Request> getAllRequests() {
         ArrayList<Request> requests = new ArrayList<>();
         try {
@@ -153,10 +152,9 @@ public class DBManager {
             stmt.close();
             conn.close();
         } catch (SQLException e) {
-            System.err.println("Could not insert in 'Schools' table");
+            System.err.println("Could not get requests.");
             e.printStackTrace();
         }
         return requests;
     }
-     */
 }
