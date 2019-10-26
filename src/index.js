@@ -10,7 +10,7 @@ import NavBar from './components/NavBar';
 import Profile from './components/Profile'
 import Manage from './components/Manage'
 import Take from './components/Take'
-import Upload from './components/Upload'
+import Upload from './components/uploading/Upload'
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';

@@ -1,5 +1,7 @@
 import React from 'react'
 
+//Different uploading components
+
 class Upload extends React.Component {
     render() {
         return (
