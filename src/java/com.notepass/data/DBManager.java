@@ -105,7 +105,31 @@ public class DBManager {
         }
         return isSuccess;
     }
-
+    /**
+     * @param user - The name of the user to be inserted.
+     * @param email - The name of the email to be inserted.
+     * @param school - The name of the school to be inserted.
+     * @return true if user was successfully inserted in Database, false otherwise.
+     */
+    public boolean insertUser(String user,String email, String school) {
+        boolean isSuccess = false;
+        try {
+            String insertUserQuery = "INSERT INTO Users(Username,Email,School) VALUES (?)";
+            Connection conn = this.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(insertUserQuery);
+            stmt.setString(1, user);
+            stmt.setString(2, email);
+            stmt.setString(3, school);
+            stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            isSuccess = true;
+        } catch (SQLException e) {
+            System.err.println("Could not insert in 'Users' table");
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
     /**
      * @return an ArrayList of strings for all the names in the Schools table.
      */

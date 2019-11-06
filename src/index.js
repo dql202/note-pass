@@ -7,7 +7,7 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 import './index.css';
 import Home from './components/Home';
 import NavBar from './components/NavBar';
-import Profile from './components/Profile'
+import ProfData from './components/Profile'
 import Manage from './components/Manage'
 import Take from './components/Take'
 import Upload from './components/Upload'
@@ -24,7 +24,7 @@ ReactDOM.render((
         <div>
             <NavBar />
             <Route exact path="/" component={Home} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/profile" component={ProfData} />
             <Route path="/manage" component={Manage} />
             <Route path="/take" component={Take} />
             <Route path="/upload" component={Upload} />
