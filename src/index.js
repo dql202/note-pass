@@ -11,6 +11,9 @@ import Profile from './components/Profile'
 import Manage from './components/Manage'
 import Take from './components/Take'
 import Upload from './components/Upload'
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Test from './components/Test';
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -25,6 +28,9 @@ ReactDOM.render((
             <Route path="/manage" component={Manage} />
             <Route path="/take" component={Take} />
             <Route path="/upload" component={Upload} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/test" component={Test} />
         </div>
     </Router>    
 ), document.getElementById('root'));

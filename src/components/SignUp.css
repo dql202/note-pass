@@ -1,0 +1,21 @@
+.pageWrapper {
+	text-align: center;
+	width: 100vw;
+	height: 80vh;
+	display: table;
+}
+
+.signupWrapper {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.signupInfo {
+	display: inline-block;
+	padding: 8px 8px;
+	outline: solid black;
+}
+
+form {
+	text-align: left;
+}
