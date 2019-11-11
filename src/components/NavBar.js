@@ -1,5 +1,6 @@
 import React from 'react';
-import {Navbar, Nav, Form, FormControl, Button} from 'react-bootstrap/';
+import {Navbar, Nav,NavDropdown, Form, FormControl, Button} from 'react-bootstrap/';
+import logo from '../logo.png'
 
 /*
     The navigation that will appear on every page. Has links
@@ -9,18 +10,33 @@ class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <Navbar bg="primary" variant="dark">
-                    <Navbar.Brand href="/" active>NotePass</Navbar.Brand>
+                <Navbar bg="primary" variant="dark" >
+                    <Navbar.Brand href="/" active> 
+                    <img
+                            src={logo}
+                            width="120"
+                            height="40"
+                            className="d-inline-block align-top"
+                            alt="logo"
+                        />
+                     </Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/manage">Manage</Nav.Link>
+                        {/* <Nav.Link href="/manage">Manage</Nav.Link> */}
                         <Nav.Link href="/upload">Upload</Nav.Link>
                         <Nav.Link href="/take">Take</Nav.Link>
-                        <Nav.Link href="/profile">Profile</Nav.Link>
+                        {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
+                        <NavDropdown title="Jon" id="Profile Options">
+                            <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                            <NavDropdown.Item href="/manage">Manage Notes</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
+                            <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                     
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-light">Search courses</Button>
+                        <Button variant="outline-light">Search notes/courses</Button>
                     </Form>
                 </Navbar>
             <br />
