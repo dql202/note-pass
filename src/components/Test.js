@@ -1,7 +1,6 @@
 import React from 'react';
 import {Form, FormControl, Button, Col} from 'react-bootstrap/';
-import './Login.css';
-import './SignUp.css';
+import './UserLogIn.css';
 
 
 class SignUp extends React.Component {
@@ -24,8 +23,8 @@ class SignUp extends React.Component {
 	render() {
 		return (
 			<div class="pageWrapper">
-				<div class="signupWrapper">
-					<div class="signupInfo">
+				<div class="centerWrapper">
+					<div class="info">
 						<h1>SignUp</h1>
 						<Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
 							<Form.Row>
@@ -104,8 +103,8 @@ class Login extends React.Component {
 	render() {
 		return (
 			<div class="pageWrapper">
-				<div class="loginWrapper">
-					<div class="loginInfo">
+				<div class="centerWrapper">
+					<div class="info">
 						<h1>Login</h1>
 						<Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
 							<Form.Group controlId="formEmail">

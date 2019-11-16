@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap/';
-import './Login.css';
+import './UserLogIn.css';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
@@ -44,8 +44,8 @@ class Login extends React.Component {
         }
         return (
             <div class="pageWrapper">
-                <div class="loginWrapper">
-                    <div class="loginInfo">
+                <div class="centerWrapper">
+                    <div class="info">
                         <h1>Login</h1>
                         <Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
                             <Form.Group controlId="formEmail">

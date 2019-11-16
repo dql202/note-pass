@@ -11,7 +11,7 @@ import NavBar from './components/NavBar';
 import ProfData from './components/Profile'
 import Manage from './components/Manage'
 import Take from './components/Take'
-import Upload from './components/upload/Upload'
+import Upload from './components/uploading/Upload'
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Test from './components/Test';
