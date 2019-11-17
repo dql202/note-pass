@@ -5,12 +5,12 @@
 	display: table;
 }
 
-.signupWrapper {
+.centerWrapper {
 	display: table-cell;
 	vertical-align: middle;
 }
 
-.signupInfo {
+.info {
 	display: inline-block;
 	padding: 8px 8px;
 	outline: solid black;

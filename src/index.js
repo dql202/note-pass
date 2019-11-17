@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import "@fortawesome/fontawesome-free/css/all.min.css";
+// import "bootstrap-css-only/css/bootstrap.min.css";
+// import "mdbreact/dist/css/mdb.css";
 //import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
+
 
 // Components
 import './index.css';
@@ -10,7 +14,7 @@ import NavBar from './components/NavBar';
 import ProfData from './components/Profile'
 import Manage from './components/Manage'
 import Take from './components/Take'
-import Upload from './components/Upload'
+import Upload from './components/upload/Upload'
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Test from './components/Test';
@@ -23,14 +27,14 @@ ReactDOM.render((
     <Router>
         <div>
             <NavBar />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Login} />
             <Route path="/profile" component={ProfData} />
             <Route path="/manage" component={Manage} />
             <Route path="/take" component={Take} />
             <Route path="/upload" component={Upload} />
-            <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <Route path="/test" component={Test} />
+            <Route path="/homepage" component={Home} />
         </div>
     </Router>    
 ), document.getElementById('root'));
