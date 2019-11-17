@@ -1,7 +1,5 @@
 package data;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class Note {
     private String school, professor, course, topic;
     private Boolean isPublic;
@@ -15,5 +13,26 @@ public class Note {
         this.course = course;
         this.topic = topic;
         this.isPublic = isPublic;
+    }
+
+    /**Getter's for the fields in a Note object*/
+    public String getSchool() {
+        return this.school;
+    }
+
+    public String getProfessor() {
+        return this.professor;
+    }
+
+    public String getCourse() {
+        return this.course;
+    }
+
+    public String getTopic() {
+        return this.topic;
+    }
+
+    public Boolean getIsPublic() {
+        return this.isPublic;
     }
 }

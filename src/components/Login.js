@@ -1,62 +1,85 @@
 import React from 'react';
-import {Form, FormControl, Button} from 'react-bootstrap/';
-import './Login.css';
-
+import { Form, Button } from 'react-bootstrap/';
+import './UserLogIn.css';
+import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 class Login extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isValidated: false,
-		};
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            isValidated: false,
+            name: "",
+            password: "",
+            isLoggedIn : false
+        };
+    }
 
-	handleSubmit = event => {
-		const form = event.currentTarget;
-		if (form.checkValidity() === false) {
-			event.preventDefault();
-			event.stopPropagation();
-		}
-		this.setState({isValidated: true});
-	}
+    handleSubmit = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/user/login/?name=" + this.state.name + "&password=" + this.state.password;
+        axios.get(url)
+            .then(res => {
+                if (res.data === "") {
+                    alert("Unable to log you in. Try again.");                }
+                else {
+                    this.setState({ isLoggedIn : true });
+                    this.forceUpdate()
+                }
+            })
+    }
 
-	render() {
-		return (
-			<div class="pageWrapper">
-				<div class="loginWrapper">
-					<div class="loginInfo">
-						<h1>Login</h1>
-						<Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
-							<Form.Group controlId="formEmail">
-								<Form.Label>User Email</Form.Label>
-								<Form.Control
-									required
-									type="email"
-									placeholder="Enter your email"
-								/>
-								<Form.Control.Feedback type="invalid">
-									Please enter your email.
+    handleChangeName = event => {
+        this.setState({ name: event.target.value });
+    }
+
+    handleChangePassword = event => {
+        this.setState({ password: event.target.value });
+    }
+
+    render() {
+        if (this.state.isLoggedIn) {
+            return <Redirect to='/homepage' />
+        }
+        return (
+            <div class="pageWrapper">
+                <div class="centerWrapper">
+                    <div class="info">
+                        <h1>Login</h1>
+                        <Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
+                            <Form.Group controlId="formEmail">
+                                <Form.Label>User Email</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    onChange={this.handleChangeName}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Please enter your email.
 								</Form.Control.Feedback>
-							</Form.Group>
+                            </Form.Group>
 
-							<Form.Group controlId="formPassword">
-								<Form.Label>Password</Form.Label>
-								<Form.Control
-									required
-									type="password"
-									placeholder="Enter your password"
-								/>
-								<Form.Control.Feedback type="invalid">
-									Please enter your password.
+                            <Form.Group controlId="formPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    onChange={this.handleChangePassword}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Please enter your password.
 								</Form.Control.Feedback>
-							</Form.Group>
-							<Button variant="primary" type="submit">Log In</Button>
-						</Form>
-					</div>
-				</div>
-			</div>
-		)
-	}
+                            </Form.Group>
+                            <Button variant="primary" type="submit">Log In</Button>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default Login

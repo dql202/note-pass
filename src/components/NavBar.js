@@ -9,10 +9,10 @@ import logo from '../logo.png'
 class NavBar extends React.Component {
     render() {
         return (
-            <div>
+            <div class="test">
                 <Navbar bg="primary" variant="dark" >
                     <Navbar.Brand href="/" active> 
-                    <img
+                        <img
                             src={logo}
                             width="120"
                             height="40"
@@ -20,8 +20,12 @@ class NavBar extends React.Component {
                             alt="logo"
                         />
                      </Navbar.Brand>
-                    <Nav className="mr-auto">
-                        {/* <Nav.Link href="/manage">Manage</Nav.Link> */}
+                     <Form inline className="mr-auto">
+                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                        <Button variant="outline-light">Search notes/courses</Button>
+                    </Form>
+                    <Nav className="d-flex justify-content-end">
+                        { <Nav.Link href="/manage">Manage</Nav.Link> }
                         <Nav.Link href="/upload">Upload</Nav.Link>
                         <Nav.Link href="/take">Take</Nav.Link>
                         {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
@@ -33,11 +37,6 @@ class NavBar extends React.Component {
                             <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    
-                    <Form inline>
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-light">Search notes/courses</Button>
-                    </Form>
                 </Navbar>
             <br />
             </div>
