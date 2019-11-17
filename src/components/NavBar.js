@@ -6,8 +6,24 @@ import logo from '../logo.png'
     The navigation that will appear on every page. Has links
     to the homepage, profile page, and search bar.
 */
+
+const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
+const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
 class NavBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          data: [],
+        };
+      }
+      componentDidMount() {
+        fetch(API + DEFAULT_QUERY)
+          .then(response => response.json())
+          .then(data => this.setState({ data:data.username}));
+        
+      }
     render() {
+        console.log(this.state.data);
         return (
             <div class="test">
                 <Navbar bg="primary" variant="dark" >
@@ -29,7 +45,7 @@ class NavBar extends React.Component {
                         <Nav.Link href="/upload">Upload</Nav.Link>
                         <Nav.Link href="/take">Take</Nav.Link>
                         {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
-                        <NavDropdown title="Jon" id="Profile Options">
+                        <NavDropdown title={this.state.data} id="Profile Options">
                             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                             <NavDropdown.Item href="/manage">Manage Notes</NavDropdown.Item>
                             <NavDropdown.Divider />
