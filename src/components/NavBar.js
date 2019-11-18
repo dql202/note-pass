@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navbar, Nav,NavDropdown, Form, FormControl, Button} from 'react-bootstrap/';
+import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap/';
 import logo from '../logo.png'
 
 /*
@@ -8,26 +8,28 @@ import logo from '../logo.png'
 */
 
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
-const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
+const USER = window.localStorage.getItem("userID");
+
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          data: [],
+            data: "",
         };
-      }
-      componentDidMount() {
-        fetch(API + DEFAULT_QUERY)
-          .then(response => response.json())
-          .then(data => this.setState({ data:data.username}));
-        
-      }
+    }
+    componentDidMount() {
+        if (USER === "") { 
+            this.setState({ data: "Profile"})
+            return; }
+        fetch(API + USER)
+            .then(response => response.json())
+            .then(data => this.setState({ data: data.username }));
+    }
     render() {
-        console.log(this.state.data);
         return (
             <div class="test">
                 <Navbar bg="primary" variant="dark" >
-                    <Navbar.Brand href="/" active> 
+                    <Navbar.Brand href="/" active>
                         <img
                             src={logo}
                             width="120"
@@ -35,13 +37,13 @@ class NavBar extends React.Component {
                             className="d-inline-block align-top"
                             alt="logo"
                         />
-                     </Navbar.Brand>
-                     <Form inline className="mr-auto">
+                    </Navbar.Brand>
+                    <Form inline className="mr-auto">
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                         <Button variant="outline-light">Search notes/courses</Button>
                     </Form>
                     <Nav className="d-flex justify-content-end">
-                        { <Nav.Link href="/manage">Manage</Nav.Link> }
+                        {<Nav.Link href="/manage">Manage</Nav.Link>}
                         <Nav.Link href="/upload">Upload</Nav.Link>
                         <Nav.Link href="/take">Take</Nav.Link>
                         {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
@@ -54,7 +56,7 @@ class NavBar extends React.Component {
                         </NavDropdown>
                     </Nav>
                 </Navbar>
-            <br />
+                <br />
             </div>
         );
     }

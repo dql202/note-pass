@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
+import {Redirect} from 'react-router-dom';
 
 
 class Upload extends React.Component {
@@ -135,6 +136,9 @@ class Upload extends React.Component {
     }
 
     render() {
+        if (window.localStorage.getItem("userID") === "") {
+            return <Redirect to='/' />
+        }
         var schools = this.getSchools()
         return (
             <div>
