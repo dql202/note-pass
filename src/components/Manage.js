@@ -1,5 +1,6 @@
 import React from 'react'
 import {Image,ListGroup,Accordion,Card, Button} from 'react-bootstrap/';
+import { Redirect } from 'react-router-dom';
 
 //import axios from 'axios';
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
@@ -19,6 +20,9 @@ class Manage extends React.Component {
             .then(data => this.setState({ data:data }));
         }
     render() {
+        if (localStorage.getItem("userID") === "") {
+            return <Redirect to='/' />
+        }
         return (
             <div>
                 <h1><center>Manage</center></h1>

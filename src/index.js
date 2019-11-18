@@ -23,6 +23,7 @@ import Test from './components/Test';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
+// Initially, no user is logged in
 ReactDOM.render((
     <Router>
         <div>

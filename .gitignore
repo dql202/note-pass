@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+.classpath
+.project
+.settings/*
+
+
 # testing
 /coverage
 testOutput/
