@@ -5,10 +5,20 @@
 /.pnp
 .pnp.js
 
+.classpath
+.project
+.settings/*
+
+
 # testing
 /coverage
 testOutput/
 prodOutput/
+
+.classpath
+.project
+target/*
+.settings/*
 
 # production
 /build

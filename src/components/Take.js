@@ -3,6 +3,7 @@ import "./Draft.css"
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import {Editor, EditorState,RichUtils} from 'draft-js';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -18,6 +19,9 @@ class Take extends React.Component {
       }
     
       render() {
+        if (window.localStorage.getItem("userID") === "") {
+            return <Redirect to='/' />
+        }
         console.log(this.state.text)
         return (
             <div className="textpageWrapper">
