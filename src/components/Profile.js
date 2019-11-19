@@ -7,7 +7,10 @@ import { Redirect } from 'react-router-dom';
 
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
 const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
-const NOTES_API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/all'
+const NOTES_API='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/all'
+const NOTES_API2='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/visible/?userID='
+const SCHOOL_API='http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID='
+
 
 class Profile extends React.Component {
     constructor(props) {
@@ -19,20 +22,27 @@ class Profile extends React.Component {
     }
     componentDidMount() {
         fetch(API + DEFAULT_QUERY)
+          .then(response => response.json())
+          .then(data => this.setState({ data:data }))
+          .then(console.log(this.state.data.username))
+          .then(
+            fetch( SCHOOL_API+ this.state.data.schoolID)
             .then(response => response.json())
-            .then(data => this.setState({ data: data }));
+            .then(schoolInfo => this.setState({ school:schoolInfo.school }))
+          );
+        
 
-
-
-    }
-    getSchoolInfo() {
-        fetch('http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID=' + this.state.data.schoolID)
-            .then(response => response.json())
-            .then(schoolInfo => this.setState({ schoolInfo: schoolInfo }));
-    }
+        
+      }
+    //   getSchoolInfo(sid){
+    //     fetch( SCHOOL_API+ sid)
+    //       .then(response => response.json())
+    //       .then(schoolInfo => this.setState({ schoolInfo:schoolInfo }));
+    //   }
     render() {
         const prof = this.state.data;
-        this.getSchoolInfo();
+        //console.log(this.state.schoolInfo)
+        // this.getSchoolInfo(prof.schoolID);
         return (
             <ul>
                 <h1><center>{prof.username}</center></h1>
@@ -63,9 +73,9 @@ class Profile2 extends React.Component {
         this.state = {
             data: [],
         };
-    }
-    componentDidMount() {
-        fetch(NOTES_API)
+      }
+      componentDidMount() {
+        fetch(NOTES_API2+DEFAULT_QUERY)
             .then(response => (response.json()))
             .then(data => this.setState({ data: data }));
     }
