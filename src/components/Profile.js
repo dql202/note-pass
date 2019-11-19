@@ -6,31 +6,40 @@ import './Profile.css';
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
 const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
 const NOTES_API='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/all'
+const NOTES_API2='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/visible/?userID='
+const SCHOOL_API='http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID='
 
 class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
           data: [],
-          schoolInfo: [],
+          school: [],
         };
       }
       componentDidMount() {
         fetch(API + DEFAULT_QUERY)
           .then(response => response.json())
-          .then(data => this.setState({ data:data }));
+          .then(data => this.setState({ data:data }))
+          .then(console.log(this.state.data.username))
+          .then(
+            fetch( SCHOOL_API+ this.state.data.schoolID)
+            .then(response => response.json())
+            .then(schoolInfo => this.setState({ school:schoolInfo.school }))
+          );
         
 
         
       }
-      getSchoolInfo(){
-        fetch('http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID=' + this.state.data.schoolID)
-          .then(response => response.json())
-          .then(schoolInfo => this.setState({ schoolInfo:schoolInfo }));
-      }
+    //   getSchoolInfo(sid){
+    //     fetch( SCHOOL_API+ sid)
+    //       .then(response => response.json())
+    //       .then(schoolInfo => this.setState({ schoolInfo:schoolInfo }));
+    //   }
     render() {
         const prof = this.state.data;
-        this.getSchoolInfo();
+        //console.log(this.state.schoolInfo)
+        // this.getSchoolInfo(prof.schoolID);
         return (
         <ul>
             <h1><center>{prof.username}</center></h1>
@@ -63,7 +72,7 @@ class Profile2 extends React.Component {
         };
       }
       componentDidMount() {
-        fetch(NOTES_API)
+        fetch(NOTES_API2+DEFAULT_QUERY)
             .then(response => (response.json()))
             .then(data => this.setState({ data:data }));
         }
@@ -78,7 +87,6 @@ class Profile2 extends React.Component {
     //       )}));
     //   }
     render() {
-        console.log(this.state.data);
         const notes = [{"id":{"$oid":"5dd0735efc13ae7e8f000000"},"topic":"Astro","professor":"Australian spiny anteater"},
         {"id":{"$oid":"5dd0735efc13ae7e8f000001"},"topic":"S-Class","professor":"Nubian bee-eater"},
         {"id":{"$oid":"5dd0735efc13ae7e8f000002"},"topic":"Diamante","professor":"Raccoon dog"},
@@ -151,12 +159,12 @@ class ProfData extends React.Component {
             <div>
                <Profile />
             </div>
-            <div class="profile2"> 
+            <div className="profile2"> 
                 <Profile2 />
                 <br></br>
                 <br></br>
             </div>
-            <div class="profile3">
+            <div className="profile3">
                 <Profile3 />
                 
             </div>

@@ -23,11 +23,11 @@ class NavBar extends React.Component {
         
       }
     render() {
-        console.log(this.state.data);
+
         return (
-            <div class="test">
+            <div >
                 <Navbar bg="primary" variant="dark" >
-                    <Navbar.Brand href="/" active> 
+                    <Navbar.Brand href="/" active="True"> 
                         <img
                             src={logo}
                             width="120"
