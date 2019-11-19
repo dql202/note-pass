@@ -24,7 +24,7 @@ class Login extends React.Component {
                 if (res.data === "") {
                     alert("Unable to log you in. Try again.");                }
                 else {
-                    localStorage.setItem("userID", res.data.userID)
+                    window.localStorage.setItem("userID", res.data.userID)
                     this.forceUpdate()
                 }
             })
@@ -39,7 +39,7 @@ class Login extends React.Component {
     }
 
     render() {
-        if (localStorage.getItem("userID") !== "") {
+        if (window.localStorage.getItem("userID") !== "null") {
             return <Redirect to='/homepage' />
         }
         return (

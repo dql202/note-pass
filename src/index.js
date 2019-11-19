@@ -18,6 +18,7 @@ import Upload from './components/upload/Upload'
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Test from './components/Test';
+import Logout from './components/Logout'
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -36,6 +37,7 @@ ReactDOM.render((
             <Route path="/signup" component={SignUp} />
             <Route path="/test" component={Test} />
             <Route path="/homepage" component={Home} />
+            <Route path="/logout" component={Logout} />
         </div>
     </Router>    
 ), document.getElementById('root'));

@@ -48,7 +48,7 @@ class NavBar extends React.Component {
                             <NavDropdown.Item href="/manage">Manage Notes</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
-                            <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
+                            <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                         </NavDropdown>
                         {<Nav.Link href="/manage">Manage</Nav.Link>}
                         <Nav.Link href="/upload">Upload</Nav.Link>

@@ -20,7 +20,7 @@ class Manage extends React.Component {
             .then(data => this.setState({ data:data }));
         }
     render() {
-        if (localStorage.getItem("userID") === "") {
+        if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
         return (
