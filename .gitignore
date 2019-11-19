@@ -10,6 +10,11 @@
 testOutput/
 prodOutput/
 
+.classpath
+.project
+target/*
+.settings/*
+
 # production
 /build
 
