@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import {Jumbotron,CardGroup,Card, Button} from 'react-bootstrap/';
+import {Redirect} from 'react-router-dom';
 
 
 /* 
@@ -9,6 +10,9 @@ import {Jumbotron,CardGroup,Card, Button} from 'react-bootstrap/';
 */
 class Home extends React.Component {
     render() {
+        if (localStorage.getItem("userID") === "") {
+            return <Redirect to='/' />
+        }
         return (
             <React.Fragment>
                 <div><h1><center>Hello Jon</center></h1></div>

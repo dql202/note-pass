@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, FormControl, Button, Col} from 'react-bootstrap/';
 import './UserLogIn.css';
+import { Redirect } from 'react-router-dom';
 
 
 class SignUp extends React.Component {
@@ -21,6 +22,9 @@ class SignUp extends React.Component {
 	}
 
 	render() {
+		if (window.localStorage.getItem("userID") !== "") {
+            return <Redirect to='/homepage' />
+        }
 		return (
 			<div class="pageWrapper">
 				<div class="centerWrapper">
