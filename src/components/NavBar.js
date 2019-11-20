@@ -39,8 +39,8 @@ class NavBar extends React.Component {
                         />
                     </Navbar.Brand>
                     <Form inline className="mr-auto">
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-light">Search notes/courses</Button>
+                        {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
+                        <Button variant="outline-light" href="/search">Search for notes</Button>
                     </Form>
                     <Nav className="d-flex justify-content-end">
                         <NavDropdown title={this.state.data} id="Profile Options">
@@ -48,7 +48,7 @@ class NavBar extends React.Component {
                             <NavDropdown.Item href="/manage">Manage Notes</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
-                            <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
+                            <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                         </NavDropdown>
                         {<Nav.Link href="/manage">Manage</Nav.Link>}
                         <Nav.Link href="/upload">Upload</Nav.Link>

@@ -1,6 +1,7 @@
 
 .profile2 {
     width: 50vw;
+    vertical-align: middle;
     /* display: flex; */
     /* flex-wrap: wrap; */
     /* display:flex; 
@@ -9,3 +10,4 @@
 .profile3 {
     width: 50vw;
 }
+.rowC{display:flex; flex-direction:row;}

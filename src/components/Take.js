@@ -2,106 +2,223 @@ import React from 'react'
 import "./Draft.css"
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
+import Button from 'react-bootstrap/Button';
+import Select from 'react-select';
 import {Editor, EditorState,RichUtils} from 'draft-js';
 import { Redirect } from 'react-router-dom';
-
-
+import axios from 'axios';
+import {Form,Col,Row} from 'react-bootstrap';
 
 class Take extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { text: '' } // You can also pass a Quill Delta here
+        this.state = { 
+            text: '' ,
+            file: null,
+            note: "",
+            owner: "",
+            school: "",
+            isPublic: true,
+            professor: "",
+            course: "",
+            topic: "",
+            buttonStates: ["primary", "secondary"],
+            schoolSelected : false,
+            profs : [],
+            fileID : ""
+        } 
         this.handleChange = this.handleChange.bind(this)
+        this.onFormSubmit = this.onFormSubmit.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
+        this.handleChangeCourse = this.handleChangeCourse.bind(this)
+        this.handleChangeProfessor = this.handleChangeProfessor.bind(this)
+        this.handleChangePublic = this.handleChangePublic.bind(this)
+        this.handleChangeSchool = this.handleChangeSchool.bind(this)
+        this.handleChangeTopic = this.handleChangeTopic.bind(this)
+        this.setPrivate = this.setPrivate.bind(this)
+        this.setPublic = this.setPublic.bind(this)
+        this.updateDatabase = this.updateDatabase.bind(this)
+        this.getSchools = this.getSchools.bind(this)
+        this.getProfs = this.getProfs.bind(this)
       }
     
-      handleChange(value) {
+    handleChange(value) {
         this.setState({ text: value })
       }
-    
-      render() {
+       //Called when the user hits submit.
+    onFormSubmit(e) {
+        e.preventDefault() // Stop form submit
+        this.updateDatabase(this.state)
+
+        // Actually upload the file
+        var fileDownload = require('js-file-download');
+        fileDownload(this.state.file, this.state.fileID);
+    }
+
+    updateDatabase() {
+        var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/create"
+        var params = {
+            "ownerID" : "1b8c1e94-ab75-4398-90d6-e81ce4dda21c",
+            "schoolID" : this.state.school,
+            "professorID" : this.state.professor,
+            "public" : this.state.isPublic,
+            "course" : this.state.course,
+            "topic" : this.state.topic,
+            "path" : "/home/bitnami/STORED_NOTES/"
+        }
+        var id = ""
+        axios.post(url, params)
+            .then(function (response) {
+                id = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        this.setState({ fileID : id });
+
+    }
+
+    // Store the file the user uploaded in a state variable
+    handleFileChange = (event) => {
+        this.setState({ file : event.target.files[0]})
+    }
+
+    // Called when the user selects a file to upload.
+    handleChangeFile(e) {
+        this.setState({ file: e.target.files[0] })
+    }
+
+    handleChangeSchool(option) {
+        this.setState({ school : option.value,
+                        schoolSelected : true,
+                        profs : this.getProfs(option.value)
+        })
+    }
+
+    handleChangePublic(e) {
+        this.setState({ isPublic: e.target.value })
+    }
+
+    handleChangeProfessor(option) {
+        this.setState({ professor: option.value })
+    }
+
+    handleChangeCourse(e) {
+        this.setState({ course: e.target.value })
+    }
+
+    handleChangeTopic(e) {
+        this.setState({ topic: e.target.value })
+    }
+
+    setPrivate() {
+        this.setState({ isPublic: false })
+        this.setState({ buttonStates: ["secondary", "primary"] })
+    }
+
+    setPublic() {
+        this.setState({ isPublic: true })
+        this.setState({ buttonStates: ["primary", "secondary"] })
+    }
+
+    // Returns a list of schools from the database
+    getSchools() {
+        const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/all"
+        var schools = []
+        axios.get(url)
+            .then(res => {
+                res.data.map((item) => schools.push({"label" : item.school, "value" : item.schoolID}));
+            })
+        return schools
+    }
+
+    getProfs(id) {
+        const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/prof/read/from/?schoolID=" + id
+        var profs = []
+        axios.get(url)
+            .then(res => {
+                res.data.map((item) => profs.push({"label" : item.name, "value" : item.profID}));
+            })
+        return profs
+    }
+
+
+    render() {
         if (window.localStorage.getItem("userID") === "") {
             return <Redirect to='/' />
         }
         console.log(this.state.text)
+        var schools = this.getSchools()
         return (
+            <React.Fragment>
+                <div>
+                <center>
+                    <h1>Take Note of Something...
+                    </h1>
+                    {/* <Form>
+                        <Form.Row>
+                            <Col>
+                            School:
+                            <Select options={schools} onChange={this.handleChangeSchool} />
+                               
+                            </Col>
+                            <Col>
+                            Professor:
+                            <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true} />
+                            </Col>
+                            
+                        </Form.Row>
+                        <Form.Row>
+                            <Col>
+                                <label>Course:<br /><input type="text" value={this.state.course} onChange={this.handleChangeCourse} /></label><br />
+                            </Col>
+                            <Col>
+                                <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
+                            </Col>
+                        </Form.Row>
+                    </Form> */}
+                    <Row>
+                        <Col>
+                        <form onSubmit={this.onFormSubmit}>
+                            <div style={{ width: '175px' }}>
+                                School:
+                                <Select options={schools} onChange={this.handleChangeSchool} />
+                                    Professor:
+                                <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true}/>
+                            </div>
+                            <label>Course:<br /><input type="text" value={this.state.course} onChange={this.handleChangeCourse} /></label><br />
+                            <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
+                            <Button variant={this.state.buttonStates[0]} onClick={this.setPublic}>Public</Button>
+                            <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
+                            
+                            <br></br>
+                            <button type="submit">Save note</button>
+                        </form>
+                        </Col>
+                        <div className="textinfo">
+                                <ReactQuill value={this.state.text}
+                                onChange={this.handleChange} />
+                            
+                            </div>
+                        <Col>
+
+                        </Col>
+                    </Row>
+                    
+                </center>
+            </div>
             <div className="textpageWrapper">
-                <h1>Take Note of Something...
-                </h1>
-                <div className="textinfo">
-                    <ReactQuill value={this.state.text}
-                      onChange={this.handleChange} />
                 
-                </div>
                 
             </div>
+            </React.Fragment>
+
+            
+
+           
           
         )
       }
-
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //       editorState: EditorState.createEmpty(),
-    //     };
-    //   }
-    // onChange = (editorState) => {
-    //     this.setState({ editorState });
-    //   };  
-    // onUnderlineClick = () => {
-    //     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
-    //   }
-    // onBoldClick = () => {
-    //     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
-    //   }
-    // toggleBulletPoints = () =>{
-    //     this.setState({
-    //             editorState: RichUtils.toggleBlockType(this.state.editorState,'unordered-list-item')
-    //     })
-    // }
-    // toggleOrderedList = () =>{
-    //     this.setState({
-    //             editorState: RichUtils.toggleBlockType(this.state.editorState,'ordered-list-item')
-    //     })
-    // }
-    // saveEditor = () =>{
-    //     let contentState = this.state.editorState.getCurrentContent()
-    // }
-    
-    // render() {
-    //     return (
-    //         <div className="pageWrapper">
-    //             <button onClick={this.onUnderlineClick}>Underline</button>
-    //             <button onClick={this.onBoldClick}>Bold</button>
-    //             <button onClick={this.toggleBulletPoints}>Bullet Points</button>
-    //             <button onClick={this.toggleOrderedList}>Numbered List</button>
-    //             <br></br>
-    //             <br></br>
-    //             <div className="info">
-    //                 <Editor
-    //                             editorState={this.state.editorState}
-    //                             handleKeyCommand={this.handleKeyCommand}
-    //                             onChange={this.onChange}
-    //                 />
-    //             </div>
-                
-    //       </div>
-    //     );
-    //   }
-
-
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {editorState: EditorState.createEmpty()};
-    //     this.onChange = (editorState) => this.setState({editorState});
-    // }
-    // render() {
-    //     return (
-    //         <div>
-    //             <h1><center>Take</center></h1>
-    //             <Editor editorState={this.state.editorState} onChange={this.onChange} />
-    //         </div>
-    //     )
-    // }
 }
 
 export default Take

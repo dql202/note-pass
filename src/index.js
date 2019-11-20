@@ -16,8 +16,12 @@ import Manage from './components/Manage'
 import Take from './components/Take'
 import Upload from './components/upload/Upload'
 import Login from './components/Login';
-import SignUp from './components/SignUp';
 import Test from './components/Test';
+<<<<<<< Updated upstream
+=======
+import Search from './components/Search';
+>>>>>>> Stashed changes
+import Logout from './components/Logout'
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -33,9 +37,13 @@ ReactDOM.render((
             <Route path="/manage" component={Manage} />
             <Route path="/take" component={Take} />
             <Route path="/upload" component={Upload} />
-            <Route path="/signup" component={SignUp} />
             <Route path="/test" component={Test} />
             <Route path="/homepage" component={Home} />
+<<<<<<< Updated upstream
+=======
+            <Route path="/search" component={Search} />
+>>>>>>> Stashed changes
+            <Route path="/logout" component={Logout} />
         </div>
     </Router>    
 ), document.getElementById('root'));

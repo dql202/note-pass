@@ -2,8 +2,7 @@ import React from 'react'
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
-import {Redirect} from 'react-router-dom';
-
+import { Redirect } from 'react-router-dom';
 
 class Upload extends React.Component {
 
@@ -19,9 +18,9 @@ class Upload extends React.Component {
             course: "",
             topic: "",
             buttonStates: ["primary", "secondary"],
-            schoolSelected : false,
-            profs : [],
-            fileID : ""
+            schoolSelected: false,
+            profs: [],
+            noteID: ""
         }
 
         this.onFormSubmit = this.onFormSubmit.bind(this)
@@ -33,58 +32,71 @@ class Upload extends React.Component {
         this.handleChangeTopic = this.handleChangeTopic.bind(this)
         this.setPrivate = this.setPrivate.bind(this)
         this.setPublic = this.setPublic.bind(this)
-        this.updateDatabase = this.updateDatabase.bind(this)
         this.getSchools = this.getSchools.bind(this)
         this.getProfs = this.getProfs.bind(this)
+        this.sendBlob = this.sendBlob.bind(this)
     }
 
     //Called when the user hits submit.
     onFormSubmit(e) {
         e.preventDefault() // Stop form submit
-        this.updateDatabase(this.state)
-
-        // Actually upload the file
-        var fileDownload = require('js-file-download');
-        fileDownload(this.state.file, this.state.fileID);
-    }
-
-    updateDatabase() {
         var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/create"
         var params = {
-            "ownerID" : "1b8c1e94-ab75-4398-90d6-e81ce4dda21c",
-            "schoolID" : this.state.school,
-            "professorID" : this.state.professor,
-            "public" : this.state.isPublic,
-            "course" : this.state.course,
-            "topic" : this.state.topic,
-            "path" : "/home/bitnami/STORED_NOTES/"
+            "ownerID": window.localStorage.getItem("userID"),
+            "schoolID": this.state.school,
+            "professorID": this.state.professor,
+            "public": this.state.isPublic,
+            "course": this.state.course,
+            "topic": this.state.topic
         }
         var id = ""
+        let state = this.state
         axios.post(url, params)
             .then(function (response) {
                 id = response.data;
+                state["noteID"] = id;
+            })
+            .then(function (resp) {
+                var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/blob"
+                const fileObj = new FormData();
+                fileObj.append('file', state.file)
+                fileObj.append("noteID", state.noteID)
+                axios.post(url, fileObj)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
             })
             .catch(function (error) {
                 console.log(error);
-            });
-        this.setState({ fileID : id });
-
+            })
     }
 
+    sendBlob(id) {
+        var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/blob"
+        const fileObj = new FormData();
+        fileObj.append('file', this.state.file)
+        fileObj.append("noteID", id)
+        axios.post(url, fileObj)
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
     // Store the file the user uploaded in a state variable
     handleFileChange = (event) => {
-        this.setState({ file : event.target.files[0]})
-    }
-
-    // Called when the user selects a file to upload.
-    handleChangeFile(e) {
-        this.setState({ file: e.target.files[0] })
+        this.setState({ file: event.target.files[0] })
     }
 
     handleChangeSchool(option) {
-        this.setState({ school : option.value,
-                        schoolSelected : true,
-                        profs : this.getProfs(option.value)
+        this.setState({
+            school: option.value,
+            schoolSelected: true,
+            profs: this.getProfs(option.value)
         })
     }
 
@@ -120,7 +132,7 @@ class Upload extends React.Component {
         var schools = []
         axios.get(url)
             .then(res => {
-                res.data.map((item) => schools.push({"label" : item.school, "value" : item.schoolID}));
+                res.data.map((item) => schools.push({ "label": item.school, "value": item.schoolID }));
             })
         return schools
     }
@@ -130,13 +142,13 @@ class Upload extends React.Component {
         var profs = []
         axios.get(url)
             .then(res => {
-                res.data.map((item) => profs.push({"label" : item.name, "value" : item.profID}));
+                res.data.map((item) => profs.push({ "label": item.name, "value": item.profID }));
             })
         return profs
     }
 
     render() {
-        if (window.localStorage.getItem("userID") === "") {
+        if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
         var schools = this.getSchools()
@@ -148,14 +160,14 @@ class Upload extends React.Component {
                         <div style={{ width: '175px' }}>
                             School:
                             <Select options={schools} onChange={this.handleChangeSchool} />
-                                Professor:
-                            <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true}/>
+                            Professor:
+                            <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true} />
                         </div>
                         <label>Course:<br /><input type="text" value={this.state.course} onChange={this.handleChangeCourse} /></label><br />
                         <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
                         <Button variant={this.state.buttonStates[0]} onClick={this.setPublic}>Public</Button>
                         <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
-                        <input type="file" onChange={this.handleFileChange} /><br /><br />
+                        <input type="file" name="upl" ref="file" onChange={this.handleFileChange} /><br /><br />
                         <button type="submit">Upload</button>
                     </form>
                 </center>
