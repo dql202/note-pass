@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react'
-import { ListGroup, Accordion, Card, Button } from 'react-bootstrap/';
+import { ListGroup, Accordion, Card, Button, Row, Col } from 'react-bootstrap/';
 import './Profile.css';
-//import axios from 'axios';
+import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
@@ -10,7 +10,6 @@ const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
 const NOTES_API='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/all'
 const NOTES_API2='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/visible/?userID='
 const SCHOOL_API='http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID='
-
 
 class Profile extends React.Component {
     constructor(props) {
@@ -34,18 +33,26 @@ class Profile extends React.Component {
 
         
       }
-    //   getSchoolInfo(sid){
-    //     fetch( SCHOOL_API+ sid)
-    //       .then(response => response.json())
-    //       .then(schoolInfo => this.setState({ schoolInfo:schoolInfo }));
+
+    // getSchool(id) {
+    //     const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID="+ id
+    //     var school = []
+    //     axios.get(url)
+    //         .then(res => {
+    //             res.data.map((item) => school.push({"label" : item.school, "value" : item.schoolID}));
+    //         })
+    //     return school
+    // }
     //   }
     render() {
         const prof = this.state.data;
-        //console.log(this.state.schoolInfo)
-        // this.getSchoolInfo(prof.schoolID);
+        // var school= this.getSchool(prof.schoolID)
         return (
             <ul>
-                <h1><center>{prof.username}</center></h1>
+                <h1><center>ihatelife</center></h1>
+                <p><center>New Dork University</center></p>
+                {/* <h1><center>{prof.username}</center></h1> */}
+                {/* <p><center>{school[0].school}</center></p> */}
 
             </ul>
         );
@@ -111,7 +118,19 @@ class Profile2 extends React.Component {
                         }
                     </Accordion>
                 </div>
-
+                <div>
+                    <ListGroup variant='flush' >
+                        <ListGroup.Item action href="#link1">
+                            New York University
+                        </ListGroup.Item>
+                        <ListGroup.Item action href="#link2">
+                            CM 1004 A1
+                        </ListGroup.Item>
+                        <ListGroup.Item action href="#link3">
+                            Data Structures Study Group
+                        </ListGroup.Item>
+                    </ListGroup>
+                </div>
             </React.Fragment>
 
 
@@ -148,23 +167,35 @@ class Profile3 extends React.Component {
 }
 class ProfData extends React.Component {
     render() {
-        if (window.localStorage.getItem("userID") !== "") {
-            return <Redirect to='/homepage' />
-        }
+        // if (window.localStorage.getItem("userID") !== "") {
+        //     return <Redirect to='/homepage' />
+        // }
         return (
             <React.Fragment>
                 <div>
                     <Profile />
-                </div>
-                <div class="profile2">
-                    <Profile2 />
+                    <br></br>
                     <br></br>
                     <br></br>
                 </div>
-                <div class="profile3">
+                <div >
+                    <Row>
+                        <Col >
+                            <Profile2 />
+                        </Col>
+                        <Col>
+                            <Profile2 />
+                        </Col>
+                        
+                    </Row>
+                    
+                    <br></br>
+                    <br></br>
+                </div>
+                {/* <div class="profile3">
                     <Profile3 />
 
-                </div>
+                </div> */}
 
             </React.Fragment>
 

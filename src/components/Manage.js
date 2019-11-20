@@ -1,6 +1,8 @@
 import React from 'react'
 import {Image,ListGroup,Accordion,Card, Button} from 'react-bootstrap/';
 import { Redirect } from 'react-router-dom';
+import { Document, Page } from 'react-pdf';
+import dummy from '../dummy.pdf'
 
 //import axios from 'axios';
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
@@ -11,22 +13,54 @@ class Manage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          data: [],
+            numPages: null,
+            pageNumber: 1,
+            // data: [],
         };
       }
-      componentDidMount() {
-        fetch(NOTES_API)
-            .then(response => (response.json()))
-            .then(data => this.setState({ data:data }));
-        }
+      onDocumentLoadSuccess = ({ numPages }) => {
+        this.setState({ numPages });
+      }
+     
+    //   componentDidMount() {
+    //     fetch(NOTES_API)
+    //         .then(response => (response.json()))
+    //         .then(data => this.setState({ data:data }));
+    //     }
     render() {
+<<<<<<< Updated upstream
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
+=======
+        const { pageNumber, numPages } = this.state;
+        // if (window.localStorage.getItem("userID") === "null") {
+        //     return <Redirect to='/' />
+        // }
+>>>>>>> Stashed changes
         return (
             <div>
                 <h1><center>Manage</center></h1>
-                <Accordion>
+                <div>
+                    <Document
+                    file="../dummy.pdf"
+                    onLoadSuccess={this.onDocumentLoadSuccess}
+                    onLoadError={"Not a valid PDF"}
+                    >
+                    <Page pageNumber={pageNumber} />
+                    </Document>
+                    <p>Page {pageNumber} of {numPages}</p>
+                </div>
+                {/* <div>
+                                            <Document
+                                                file="../dummy.pdf"
+                                                onLoadSuccess={this.onDocumentLoadSuccess}
+                                                >
+                                                <Page pageNumber={pageNumber} />
+                                                </Document>
+                                            <p>Page {pageNumber} of {numPages}</p>
+                                        </div> */}
+                {/* <Accordion>
                         {
                             this.state.data.map((data,i)=>
                             <Card key={i}>
@@ -35,7 +69,7 @@ class Manage extends React.Component {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={i}>
                                     <Card.Body>
-                                        {data.time.slice(0,10)}
+                                         {data.time.slice(0,10)}
                                         <p></p>
                                         <a href="#download">Download</a>
                                         <p></p>
@@ -44,8 +78,8 @@ class Manage extends React.Component {
                                 </Accordion.Collapse>
                             </Card>)
                         }
-                     </Accordion>
-            </div>
+                </Accordion> */}
+            </div> 
         )
     }
 }

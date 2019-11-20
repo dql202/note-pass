@@ -10,9 +10,15 @@ import {Redirect} from 'react-router-dom';
 */
 class Home extends React.Component {
     render() {
+<<<<<<< Updated upstream
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
+=======
+        // if (window.localStorage.getItem("userID") === "null") {
+        //     return <Redirect to='/' />
+        // }
+>>>>>>> Stashed changes
         return (
             <React.Fragment>
                 <div><h1><center>Hello Jon</center></h1></div>
@@ -33,24 +39,37 @@ class Home extends React.Component {
                         <Card.Body>
                         <Card.Title>Search</Card.Title>
                         <Card.Text>
-                            Explore a library compiled by students and professionals
+                            Explore our collection
                         </Card.Text>
+                        <Button variant="primary">Search</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
-                        <Card.Title>Friends and Groups</Card.Title>
+                        <Card.Title>Take</Card.Title>
                         <Card.Text>
-                            Find fellow classmates and friends and collaborate 
+                            Take notes with our in-site editor
+                            <br></br>
                         </Card.Text>
+                        <Button variant="primary">Compose</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card>
+                        <Card.Body>
+                        <Card.Title>Notebook</Card.Title>
+                        <Card.Text>
+                            View all your saved notes
+                        </Card.Text>
+                        <Button variant="primary">Profile</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>Manage</Card.Title>
                         <Card.Text>
-                            Collect and manage all notes taken or discovered by you
+                            Manage your Uploaded Notes
                         </Card.Text>
+                        <Button variant="primary">Uploads</Button>
                         </Card.Body>
                     </Card>
                     </CardGroup>

@@ -39,8 +39,8 @@ class NavBar extends React.Component {
                         />
                     </Navbar.Brand>
                     <Form inline className="mr-auto">
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-light">Search notes/courses</Button>
+                        {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
+                        <Button variant="outline-light" href="/search">Search for notes</Button>
                     </Form>
                     <Nav className="d-flex justify-content-end">
                         <NavDropdown title={this.state.data} id="Profile Options">
