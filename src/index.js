@@ -16,7 +16,6 @@ import Manage from './components/Manage'
 import Take from './components/Take'
 import Upload from './components/upload/Upload'
 import Login from './components/Login';
-import SignUp from './components/SignUp';
 import Test from './components/Test';
 import Logout from './components/Logout'
 
@@ -34,7 +33,6 @@ ReactDOM.render((
             <Route path="/manage" component={Manage} />
             <Route path="/take" component={Take} />
             <Route path="/upload" component={Upload} />
-            <Route path="/signup" component={SignUp} />
             <Route path="/test" component={Test} />
             <Route path="/homepage" component={Home} />
             <Route path="/logout" component={Logout} />
