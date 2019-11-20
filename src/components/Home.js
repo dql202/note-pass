@@ -10,15 +10,9 @@ import {Redirect} from 'react-router-dom';
 */
 class Home extends React.Component {
     render() {
-<<<<<<< Updated upstream
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
-=======
-        // if (window.localStorage.getItem("userID") === "null") {
-        //     return <Redirect to='/' />
-        // }
->>>>>>> Stashed changes
         return (
             <React.Fragment>
                 <div><h1><center>Hello Jon</center></h1></div>

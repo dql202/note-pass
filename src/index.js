@@ -17,10 +17,7 @@ import Take from './components/Take'
 import Upload from './components/upload/Upload'
 import Login from './components/Login';
 import Test from './components/Test';
-<<<<<<< Updated upstream
-=======
 import Search from './components/Search';
->>>>>>> Stashed changes
 import Logout from './components/Logout'
 
 // Bootstrap
@@ -39,10 +36,7 @@ ReactDOM.render((
             <Route path="/upload" component={Upload} />
             <Route path="/test" component={Test} />
             <Route path="/homepage" component={Home} />
-<<<<<<< Updated upstream
-=======
             <Route path="/search" component={Search} />
->>>>>>> Stashed changes
             <Route path="/logout" component={Logout} />
         </div>
     </Router>    
