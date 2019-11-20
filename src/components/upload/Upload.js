@@ -3,9 +3,6 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom';
-import fileDownload from 'js-file-download';
-
-var contents;
 
 class Upload extends React.Component {
 
@@ -92,7 +89,6 @@ class Upload extends React.Component {
     }
     // Store the file the user uploaded in a state variable
     handleFileChange = (event) => {
-        var file = event.target.files[0];
         this.setState({ file: event.target.files[0] })
     }
 
