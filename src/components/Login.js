@@ -56,6 +56,7 @@ class Login extends React.Component {
 
     // Call API with information to store user into the database.
     handleSubmitSignup = event => {
+        event.preventDefault();
         var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/user/create"
         var params = {
             "email" : this.state.emailSignup,
@@ -65,18 +66,14 @@ class Login extends React.Component {
         }
         axios.post(url, params)
             .then(response => {
-                window.localStorage.setItem("userID", response.data);
                 console.log(response)
-                console.log("In here")
-                this.forceUpdate();
+                window.localStorage.setItem("userID", response.data);
+                alert("Your account has been created. You can now log in")
             })
             .catch(function (error) {
-                console.log(error);
                 window.localStorage.setItem("userID", null)
-                console.log("not in here")
-                this.forceUpdate();
             });
-        //this.forceUpdate();
+        this.forceUpdate();
     }
 
     handleChangeNameSignup = event => {
