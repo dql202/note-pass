@@ -28,16 +28,9 @@ class Manage extends React.Component {
     //         .then(data => this.setState({ data:data }));
     //     }
     render() {
-<<<<<<< Updated upstream
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
-=======
-        const { pageNumber, numPages } = this.state;
-        // if (window.localStorage.getItem("userID") === "null") {
-        //     return <Redirect to='/' />
-        // }
->>>>>>> Stashed changes
         return (
             <div>
                 <h1><center>Manage</center></h1>
