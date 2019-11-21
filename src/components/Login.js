@@ -7,7 +7,7 @@ import logo from '../logo.png';
 import Select from 'react-select';
 import logHome from '../logHome.jpg';
 
-
+//Acts as both a sign up and sign in page
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +41,8 @@ class Login extends React.Component {
                     alert("Unable to log you in. Try again.");                
                 }
                 else {
-                    window.localStorage.setItem("userID", res.data.userID)
+                    console.log(res.data)
+                    window.localStorage.setItem("userID", res.data.username)
                     this.forceUpdate()
                 }
             })

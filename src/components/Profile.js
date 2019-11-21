@@ -8,9 +8,11 @@ import { Redirect } from 'react-router-dom';
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
 const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
 const NOTES_API='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/all'
-const NOTES_API2='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/visible/?userID='
+const NOTES_API2='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/mine/?userID='
 const SCHOOL_API='http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID='
 
+
+//Displays all uploaded and starred notes
 class Profile extends React.Component {
     constructor(props) {
         super(props);
@@ -20,58 +22,28 @@ class Profile extends React.Component {
         };
     }
     componentDidMount() {
-        fetch(API + DEFAULT_QUERY)
+        fetch(API + window.localStorage.userID)
           .then(response => response.json())
           .then(data => this.setState({ data:data }))
-          .then(console.log(this.state.data.username))
-          .then(
-            fetch( SCHOOL_API+ this.state.data.schoolID)
-            .then(response => response.json())
-            .then(schoolInfo => this.setState({ school:schoolInfo.school }))
-          );
-        
-
-        
       }
-
-    // getSchool(id) {
-    //     const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID="+ id
-    //     var school = []
-    //     axios.get(url)
-    //         .then(res => {
-    //             res.data.map((item) => school.push({"label" : item.school, "value" : item.schoolID}));
-    //         })
-    //     return school
-    // }
-    //   }
+    
+    getSchool(id) {
+        const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID="+ id
+        fetch(url)
+          .then(response => response.json())
+          .then(data => this.setState({ schoolInfo:data }))
+    }
+    
     render() {
-        const prof = this.state.data;
-        // var school= this.getSchool(prof.schoolID)
+        const profile = this.state.data;
+        this.getSchool(profile.schoolID)
         return (
             <ul>
-                <h1><center>ihatelife</center></h1>
-                <p><center>New Dork University</center></p>
-                {/* <h1><center>{prof.username}</center></h1> */}
-                {/* <p><center>{school[0].school}</center></p> */}
+                <h1><center>{profile.username}</center></h1> 
+                <p><center>{this.state.schoolInfo.school}</center></p>
 
             </ul>
         );
-        // return (
-        //     <React.Fragment>
-        //         <div>
-
-        //             <center><img src={image} alt="avi"  class="avi"/></center>
-        //             <h1><center>Jon</center></h1>
-        //             <p><center>Student at New York University</center></p>
-        //             <br />
-        //             <br />
-        //         </div>
-
-
-        //     </React.Fragment>
-
-
-        // )
     }
 }
 class Profile2 extends React.Component {
@@ -82,20 +54,10 @@ class Profile2 extends React.Component {
         };
       }
       componentDidMount() {
-        fetch(NOTES_API2+DEFAULT_QUERY)
+        fetch(NOTES_API2+window.localStorage.userID)
             .then(response => (response.json()))
             .then(data => this.setState({ data: data }));
     }
-    //   componentDidMount() {
-    //     fetch(NOTES_API)
-    //       .then(response => response.json())
-    //       .then(data => this.setState({ notes: data.map(item=>({
-    //             topic:item.topic
-
-
-    //       })
-    //       )}));
-    //   }
     render() {
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
@@ -103,7 +65,7 @@ class Profile2 extends React.Component {
         return (
             <React.Fragment>
                 <div>
-                    <h2>Notes</h2>
+                    <h2>My Uploaded Notes</h2>
                     <Accordion>
                         {
                             this.state.data.map((data, i) =>
@@ -118,19 +80,6 @@ class Profile2 extends React.Component {
                         }
                     </Accordion>
                 </div>
-                <div>
-                    <ListGroup variant='flush' >
-                        <ListGroup.Item action href="#link1">
-                            New York University
-                        </ListGroup.Item>
-                        <ListGroup.Item action href="#link2">
-                            CM 1004 A1
-                        </ListGroup.Item>
-                        <ListGroup.Item action href="#link3">
-                            Data Structures Study Group
-                        </ListGroup.Item>
-                    </ListGroup>
-                </div>
             </React.Fragment>
 
 
@@ -138,14 +87,26 @@ class Profile2 extends React.Component {
     }
 }
 class Profile3 extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
+        };
+      }
+      componentDidMount() {
+        fetch(NOTES_API2+window.localStorage.userID)
+            .then(response => (response.json()))
+            .then(data => this.setState({ data: data }));
+    }
     render() {
         return (
             <React.Fragment>
                 <div>
-                    <h2>Affliated Groups</h2>
+                    <h2>My Starred Notes</h2>
                 </div>
                 <div>
-                    <ListGroup variant='flush' >
+                    <p>Coming Soon...</p>
+                    {/* <ListGroup variant='flush' >
                         <ListGroup.Item action href="#link1">
                             New York University
                         </ListGroup.Item>
@@ -155,9 +116,9 @@ class Profile3 extends React.Component {
                         <ListGroup.Item action href="#link3">
                             Data Structures Study Group
                         </ListGroup.Item>
-                    </ListGroup>
+                    </ListGroup> */}
                 </div>
-            </React.Fragment>
+            </React.Fragment> 
 
 
 
@@ -184,7 +145,7 @@ class ProfData extends React.Component {
                             <Profile2 />
                         </Col>
                         <Col>
-                            <Profile2 />
+                            <Profile3 />
                         </Col>
                         
                     </Row>
