@@ -37,7 +37,6 @@ class Take extends React.Component {
         this.handleChangeTopic = this.handleChangeTopic.bind(this)
         this.setPrivate = this.setPrivate.bind(this)
         this.setPublic = this.setPublic.bind(this)
-        this.updateDatabase = this.updateDatabase.bind(this)
         this.getSchools = this.getSchools.bind(this)
         this.getProfs = this.getProfs.bind(this)
       }
@@ -48,34 +47,41 @@ class Take extends React.Component {
        //Called when the user hits submit.
     onFormSubmit(e) {
         e.preventDefault() // Stop form submit
-        this.updateDatabase(this.state)
-
-        // Actually upload the file
-        var fileDownload = require('js-file-download');
-        fileDownload(this.state.file, this.state.fileID);
-    }
-
-    updateDatabase() {
         var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/create"
         var params = {
-            "ownerID" : "1b8c1e94-ab75-4398-90d6-e81ce4dda21c",
-            "schoolID" : this.state.school,
-            "professorID" : this.state.professor,
-            "public" : this.state.isPublic,
-            "course" : this.state.course,
-            "topic" : this.state.topic,
-            "path" : "/home/bitnami/STORED_NOTES/"
+            "ownerID": window.localStorage.getItem("userID"),
+            "schoolID": this.state.school,
+            "professorID": this.state.professor,
+            "public": this.state.isPublic,
+            "course": this.state.course,
+            "topic": this.state.topic
         }
         var id = ""
+        let state = this.state
         axios.post(url, params)
             .then(function (response) {
                 id = response.data;
+                state["noteID"] = id;
+            })
+            .then((resp) => {
+                // Upload the file to the database
+                const file = new Blob([this.state.text], { type: 'text/plain' });
+
+                var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/blob"
+                const fileObj = new FormData();
+                fileObj.append('file', file)
+                fileObj.append("noteID", this.state.noteID)
+                axios.post(url, fileObj)
+                    .then(function (response) {
+                        alert("Your file has been uploaded.")
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
             })
             .catch(function (error) {
                 console.log(error);
-            });
-        this.setState({ fileID : id });
-
+            })
     }
 
     // Store the file the user uploaded in a state variable
@@ -147,7 +153,6 @@ class Take extends React.Component {
         if (window.localStorage.getItem("userID") === "") {
             return <Redirect to='/' />
         }
-        console.log(this.state.text)
         var schools = this.getSchools()
         return (
             <React.Fragment>
@@ -155,28 +160,6 @@ class Take extends React.Component {
                 <center>
                     <h1>Take Note of Something...
                     </h1>
-                    {/* <Form>
-                        <Form.Row>
-                            <Col>
-                            School:
-                            <Select options={schools} onChange={this.handleChangeSchool} />
-                               
-                            </Col>
-                            <Col>
-                            Professor:
-                            <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true} />
-                            </Col>
-                            
-                        </Form.Row>
-                        <Form.Row>
-                            <Col>
-                                <label>Course:<br /><input type="text" value={this.state.course} onChange={this.handleChangeCourse} /></label><br />
-                            </Col>
-                            <Col>
-                                <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
-                            </Col>
-                        </Form.Row>
-                    </Form> */}
                     <Row>
                         <Col>
                         <form onSubmit={this.onFormSubmit}>
