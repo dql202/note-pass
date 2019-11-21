@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import logo from '../logo.png';
 import Select from 'react-select';
+import logHome from '../logHome.jpg';
 
 
 class Login extends React.Component {
@@ -107,119 +108,132 @@ class Login extends React.Component {
             return <Redirect to='/homepage' />
         }
         var schools = this.getSchools();
-        return (
-            <div className="loginWrapper">
-                <img
-                    src={logo}
-                    width="180"
-                    height="60"
-                    className="d-inline-block align-top"
-                    alt="logo"
+                return (
+            <div className="row">
+            <div className="leftCol">
+                <img 
+                    src= {logHome}
+                    width="100%"
+                    height="100%"
+                    alt="Avatar note"
                 />
-                <Accordion defaultActiveKey="0">
-                <Card>
-                    <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        Login
-                    </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                        <Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmitLogin}>
-                         <Form.Group controlId="formEmail">
-                                 <Form.Label>User Email</Form.Label>
-                                 <Form.Control
-                                    required
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    onChange={this.handleChangeNameLogin}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Please enter your email.
-								</Form.Control.Feedback>
-                            </Form.Group>
+            </div>
+            <div className="rightCol">
+                <div className="loginWrapper">
+                    <img
+                        src={logo}
+                        width="180"
+                        height="60"
+                        className="d-inline-block align-top"
+                        alt="logo"
+                    />
+                    <Accordion defaultActiveKey="0">
+                    <Card>
+                        <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            Login
+                        </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                            <Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmitLogin}>
+                             <Form.Group controlId="formEmail">
+                                     <Form.Label>User Email</Form.Label>
+                                     <Form.Control
+                                        required
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        onChange={this.handleChangeNameLogin}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Please enter your email.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
 
-                            <Form.Group controlId="formPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    onChange={this.handleChangePasswordLogin}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Please enter your password.
-								</Form.Control.Feedback>
-                            </Form.Group>
-                            <Button variant="primary" type="submit">Log In</Button>
-                        </Form>
-                    </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
+                                <Form.Group controlId="formPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        onChange={this.handleChangePasswordLogin}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Please enter your password.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Button variant="primary" type="submit">Log In</Button>
+                            </Form>
+                        </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
 
-                {/* Sign up accordian */}
-                <Card>
-                    <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                        Sign Up
-                    </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="1">
-                    <Card.Body>
-                    <Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmitSignup}>
-							<Form.Row>
-								<Form.Group as={Col} controlId="formFirstName">
-									<Form.Label>Username</Form.Label>
-									<Form.Control
-										required
-										type="text"
-                                        placeholder="username"
-                                        onChange={this.handleChangeNameSignup}
-									/>
-									<Form.Control.Feedback type="invalid">
-										Please enter your username
-									</Form.Control.Feedback>
-								</Form.Group>
-							</Form.Row>
+                    {/* Sign up accordian */}
+                    <Card>
+                        <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            Sign Up
+                        </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="1">
+                        <Card.Body>
+                        <Form noValidate validated={this.state.isValidated} onSubmit={this.handleSubmitSignup}>
+                                <Form.Row>
+                                    <Form.Group as={Col} controlId="formFirstName">
+                                        <Form.Label>Username</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="username"
+                                            onChange={this.handleChangeNameSignup}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter your username
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Form.Row>
 
-							<Form.Group controlId="formEmailSignup">
-								<Form.Label>Email</Form.Label>
-                                <Form.Control 
-                                    required type="email" 
-                                    placeholder="Email" 
-                                    onChange={this.handleChangeEmailSignup}/>
-								<Form.Control.Feedback type="invalid">
-									Please enter your email.
-								</Form.Control.Feedback>
-							</Form.Group>
+                                <Form.Group controlId="formEmailSignup">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control 
+                                        required type="email" 
+                                        placeholder="Email" 
+                                        onChange={this.handleChangeEmailSignup}/>
+                                    <Form.Control.Feedback type="invalid">
+                                        Please enter your email.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
 
-							<Form.Group controlId="formSchool">
-                                School
-                            <Select options={schools} onChange={this.handleChangeSchoolSignup} />
-							</Form.Group>
+                                <Form.Group controlId="formSchool">
+                                    School
+                                <Select options={schools} onChange={this.handleChangeSchoolSignup} />
+                                </Form.Group>
 
-							<Form.Group controlId="formPasswordSignup">
-								<Form.Label>Password</Form.Label>
-								<Form.Control
-									required
-									type="password"
-                                    placeholder="Password"
-                                    onChange={this.handleChangePasswordSignup}
-								/>
-								<Form.Control.Feedback type="invalid">
-									Please enter your password.
-								</Form.Control.Feedback>
-							</Form.Group>
+                                <Form.Group controlId="formPasswordSignup">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="password"
+                                        placeholder="Password"
+                                        onChange={this.handleChangePasswordSignup}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Please enter your password.
+                                    </Form.Control.Feedback>
+                                </Form.Group>
 
-							<Button variant="primary" type="submit">Sign Up</Button>
-						</Form>
-                    </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-                </Accordion>
+                                <Button variant="primary" type="submit">Sign Up</Button>
+                            </Form>
+                        </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                    </Accordion>
+                </div>
+            </div>
             </div>
         )
     }
 }
+
 
 export default Login

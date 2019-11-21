@@ -35,7 +35,7 @@ ReactDOM.render((
     <Router>
         <div>
             <NavBar />
-            <MyAppTest2 />
+            <Route path="/pdftest" component={MyAppTest2} />
             <Route exact path="/" component={Login} />
             <Route path="/profile" component={ProfData} />
             <Route path="/manage" component={Manage} />

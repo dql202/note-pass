@@ -28,7 +28,7 @@ class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <Navbar bg="primary" variant="dark" >
+                <Navbar bg="primary" variant="dark">
                     <Navbar.Brand href="/" active="true">
                         <img
                             src={logo}
@@ -57,7 +57,6 @@ class NavBar extends React.Component {
 
                     </Nav>
                 </Navbar>
-                <br />
             </div>
         );
     }
