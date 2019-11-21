@@ -18,7 +18,7 @@ class Upload extends React.Component {
             professor: "",
             course: "",
             topic: "",
-            buttonStates: ["success", "danger"],
+            buttonStates: ["success", "secondary"],
             schoolSelected: false,
             profs: [],
             noteID: ""
@@ -119,12 +119,12 @@ class Upload extends React.Component {
 
     setPrivate() {
         this.setState({ isPublic: false })
-        this.setState({ buttonStates: ["danger", "success"] })
+        this.setState({ buttonStates: ["secondary", "danger"] })
     }
 
     setPublic() {
         this.setState({ isPublic: true })
-        this.setState({ buttonStates: ["success", "danger"] })
+        this.setState({ buttonStates: ["success", "secondary"] })
     }
 
     // Returns a list of schools from the database
@@ -154,7 +154,7 @@ class Upload extends React.Component {
         }
         var schools = this.getSchools()
         return (
-            <div className="test">
+            <div className="info">
                 <center>
                                         <h1>Upload your notes here</h1>
 

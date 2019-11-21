@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {Col,Row} from 'react-bootstrap';
+import "./upload/Upload.css";
 
 class Take extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Take extends React.Component {
             professor: "",
             course: "",
             topic: "",
-            buttonStates: ["primary", "secondary"],
+            buttonStates: ["success", "secondary"],
             schoolSelected : false,
             profs : [],
             fileID : ""
@@ -118,12 +119,12 @@ class Take extends React.Component {
 
     setPrivate() {
         this.setState({ isPublic: false })
-        this.setState({ buttonStates: ["secondary", "primary"] })
+        this.setState({ buttonStates: ["secondary", "danger"] })
     }
 
     setPublic() {
         this.setState({ isPublic: true })
-        this.setState({ buttonStates: ["primary", "secondary"] })
+        this.setState({ buttonStates: ["success", "secondarye"] })
     }
 
     // Returns a list of schools from the database
@@ -174,7 +175,7 @@ class Take extends React.Component {
                             <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
                             
                             <br></br>
-                            <button type="submit">Save note</button>
+                            <button className="submitButton" type="submit">Save note</button>
                         </form>
                         </Col>
                         <div className="textinfo">
