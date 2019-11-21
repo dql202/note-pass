@@ -1,5 +1,23 @@
-.dropzone {
-    width : 50%;
-    height : 50%;
-    border : 1px solid black;
-  }
+.submitButton:hover {
+	background-color: #4a90e2;
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+  .submitButton {
+  	background-color: #4a90e2;
+  	border-radius: 6px;
+  	transition-duration: 0.4s;
+  	border: 1px solid #4a90e2;
+  	transition-duration: 0.2s;
+}
+
+.test {
+	padding-top: 20px;
+	width: 50%;
+	margin: auto;
+}
+
+.test form {
+	margin: auto;
+	width: 50%
+}

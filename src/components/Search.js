@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Accordion, Button, Card, Row, Col } from 'react-bootstrap';
 
-//Search our notes
+//Search through the notes database
 
 class Search extends React.Component {
     constructor(props) {
@@ -129,6 +129,8 @@ class Search extends React.Component {
         }
         console.log(this.state.notes)
     }
+    
+    //clears the current fields
     clear(){
         window.sessionStorage.removeItem("professor")
         window.sessionStorage.removeItem("school")
@@ -136,6 +138,8 @@ class Search extends React.Component {
         window.location.reload()
 
     }
+
+    //displays notes based off which fields have been selected
     search() {
 
         if (window.sessionStorage.getItem("topic")!=null) {
