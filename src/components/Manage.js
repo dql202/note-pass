@@ -8,9 +8,11 @@ class Manage extends React.Component {
         super(props);
         this.state = {
             data: [],
-            downloadLink : "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/blob/?noteID=",
-            deleteLink : "http://notepass.us-east-2.elasticbeanstalk.com/api/note/delete/?noteID="
+            downloadLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/blob/?noteID=",
+            deleteLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/delete/?noteID="
         };
+
+        this.downloadTxtFile = this.downloadTxtFile.bind(this);
     }
 
     // Get all the notes uploaded by the user that is logged in.
@@ -21,17 +23,24 @@ class Manage extends React.Component {
             .then(data => this.setState({ data: data }));
     }
 
-    // downloadNote(id) {
-    //     const FileDownload = require('js-file-download');
+    downloadTxtFile = (event) => {
 
-    //     Axios.get(`http://localhost/downloadFile`)
-    //         .then((response) => {
-    //             FileDownload(response.data, 'report.csv');
-    //         });
-    // }
+        axios.get(this.state.downloadLink + event.target.getAttribute('arg'))
+            .then(res => {
+                console.log(res)
+                const element = document.createElement("a");
+                const file = new Blob([res.data], { type: 'text/plain' });
+                element.href = URL.createObjectURL(file);
+                element.download = "Note.txt";
+                document.body.appendChild(element); // Required for this to work in FireFox
+                element.click();
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
+    }
 
     render() {
-        console.log(this.state.data)
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
@@ -40,19 +49,18 @@ class Manage extends React.Component {
                 <h1><center>Manage</center></h1>
                 <Accordion>
                     {this.state.data.map((data, i) =>
-                            <Card key={i}>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey={i}>{data.topic}</Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey={i}>
-                                    <Card.Body>
-                                        {data.time.slice(0, 10)}
-                                        <p></p>
-                                        {console.log(this.state.downloadLink + data.noteID)}
-                                        <a href={this.state.downloadLink + data.noteID} download="temp">Download</a>
-                                    </Card.Body>
-                                </Accordion.Collapse>
-                            </Card>)
+                        <Card key={i}>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey={i}>{data.topic}</Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey={i}>
+                                <Card.Body>
+                                    {data.time.slice(0, 10)}
+                                    <p></p>
+                                    <button onClick={this.downloadTxtFile} arg={data.nodeID}>Download</button>
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>)
                     }
                 </Accordion>
             </div>

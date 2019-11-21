@@ -63,7 +63,7 @@ class Upload extends React.Component {
                 fileObj.append("noteID", state.noteID)
                 axios.post(url, fileObj)
                     .then(function (response) {
-                        console.log(response.data);
+                        alert("Your file has been uploaded.")
                     })
                     .catch(function (error) {
                         console.log(error);
