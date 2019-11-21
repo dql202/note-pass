@@ -7,7 +7,6 @@ class Manage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-<<<<<<< Updated upstream
             data: [],
             downloadLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/blob/?noteID=",
             deleteLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/delete/?noteID="
@@ -41,22 +40,6 @@ class Manage extends React.Component {
             })
     }
 
-=======
-            numPages: null,
-            pageNumber: 1,
-            data: [],
-        };
-      }
-      onDocumentLoadSuccess = ({ numPages }) => {
-        this.setState({ numPages });
-      }
-     
-      componentDidMount() {
-        fetch(API+window.localStorage.getItem("userID"))
-            .then(response => (response.json()))
-            .then(data => this.setState({ data:data }));
-        }
->>>>>>> Stashed changes
     render() {
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
@@ -64,7 +47,6 @@ class Manage extends React.Component {
         return (
             <div>
                 <h1><center>Manage</center></h1>
-<<<<<<< Updated upstream
                 <Accordion>
                     {this.state.data.map((data, i) =>
                         <Card key={i}>
@@ -82,47 +64,6 @@ class Manage extends React.Component {
                     }
                 </Accordion>
             </div>
-=======
-                {/* <div>
-                    <Document
-                    file="../dummy.pdf"
-                    onLoadSuccess={this.onDocumentLoadSuccess}
-                    onLoadError={"Not a valid PDF"}
-                    >
-                    <Page pageNumber={pageNumber} />
-                    </Document>
-                    <p>Page {pageNumber} of {numPages}</p>
-                </div> */}
-                {/* <div>
-                                            <Document
-                                                file="../dummy.pdf"
-                                                onLoadSuccess={this.onDocumentLoadSuccess}
-                                                >
-                                                <Page pageNumber={pageNumber} />
-                                                </Document>
-                                            <p>Page {pageNumber} of {numPages}</p>
-                                        </div> */}
-                <Accordion>
-                        {
-                            this.state.data.map((data,i)=>
-                            <Card key={i}>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey={i}>{data.topic}</Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey={i}>
-                                    <Card.Body>
-                                         {data.time.slice(0,10)}
-                                        <p></p>
-                                        <a href="#download">Download</a>
-                                        <p></p>
-                                        <a href="#delete">Delete</a>
-                                    </Card.Body>
-                                </Accordion.Collapse>
-                            </Card>)
-                        }
-                </Accordion>
-            </div> 
->>>>>>> Stashed changes
         )
     }
 }

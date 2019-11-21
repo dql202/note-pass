@@ -23,7 +23,7 @@ class Home extends React.Component {
                         Share your knowledge with the Notepass Community
                     </p>
                     <p>
-                        <Button variant="primary">Upload</Button>
+                        <Button variant="primary" href="/upload">Upload</Button>
                     </p>
                 </Jumbotron>
                 </div>
@@ -32,19 +32,19 @@ class Home extends React.Component {
                     <Card>
                         <Card.Body>
                         <Card.Title>Explore our collection</Card.Title>
-                        <Button variant="primary">Search</Button>
+                        <Button  variant="primary" href ="/search">Search</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>Take Notes</Card.Title>
-                        <Button variant="primary">Notepad</Button>
+                        <Button  variant="primary" href="/take">Notepad</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>View saved notes</Card.Title>
-                        <Button variant="primary">Notebook</Button>
+                        <Button h variant="primary" href="/profile">Notebook</Button>
                         </Card.Body>
                     </Card>
                     {/* <Card>
