@@ -24,7 +24,6 @@ class Manage extends React.Component {
     }
 
     downloadTxtFile = (event) => {
-
         axios.get(this.state.downloadLink + event.target.getAttribute('arg'))
             .then(res => {
                 console.log(res)
@@ -32,14 +31,14 @@ class Manage extends React.Component {
                 const file = new Blob([res.data], { type: 'text/plain' });
                 element.href = URL.createObjectURL(file);
                 element.download = "Note.txt";
-                document.body.appendChild(element); // Required for this to work in FireFox
+                document.body.appendChild(element);
                 element.click();
             })
             .catch(function (err) {
                 console.log(err)
             })
     }
-
+// {this.state.data.map((data, i) => console.log(data.noteID)) }
     render() {
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
@@ -57,7 +56,7 @@ class Manage extends React.Component {
                                 <Card.Body>
                                     {data.time.slice(0, 10)}
                                     <p></p>
-                                    <button onClick={this.downloadTxtFile} arg={data.nodeID}>Download</button>
+                                    <button onClick={this.downloadTxtFile} arg={data.noteID}>Download</button>
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>)
