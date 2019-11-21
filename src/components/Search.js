@@ -170,7 +170,7 @@ class Search extends React.Component {
                 .then(res => {
                     this.setState({ notes: res.data })
                 })
-        }
+        } 
     }
     render() {
 

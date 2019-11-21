@@ -118,7 +118,7 @@ class Profile3 extends React.Component {
                         </ListGroup.Item>
                     </ListGroup> */}
                 </div>
-            </React.Fragment>
+            </React.Fragment> 
 
 
 
