@@ -11,13 +11,14 @@
   	transition-duration: 0.2s;
 }
 
-.test {
+
+.info {
 	padding-top: 20px;
 	width: 50%;
 	margin: auto;
 }
 
-.test form {
+.info form {
 	margin: auto;
 	width: 50%
 }

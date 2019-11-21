@@ -32,19 +32,25 @@ class Home extends React.Component {
                     <Card>
                         <Card.Body>
                         <Card.Title>Explore our collection</Card.Title>
+
                         <Button variant="primary" href="/search">Search</Button>
+
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>Take Notes</Card.Title>
+
                         <Button variant="primary" href="/take">Notepad</Button>
+
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>View saved notes</Card.Title>
+
                         <Button variant="primary" href="/profile">Notebook</Button>
+
                         </Card.Body>
                     </Card>
                     {/* <Card>
