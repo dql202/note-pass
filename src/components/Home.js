@@ -3,7 +3,7 @@ import '../App.css';
 import {Jumbotron,CardGroup,Card, Button} from 'react-bootstrap/';
 import {Redirect} from 'react-router-dom';
 
-
+const USER = window.localStorage.getItem("userID");
 /* 
     The buttons on the homepage that allow users to 
     upload notes, take notes, and manage their notes.
@@ -15,7 +15,7 @@ class Home extends React.Component {
         }
         return (
             <React.Fragment>
-                <div><h1><center>Hello Jon</center></h1></div>
+                <div><h1><center>Hello, {window.localStorage.userID}</center></h1></div>
                 <div>
                 <Jumbotron>
                     <h1>Upload to the world</h1>
@@ -23,7 +23,7 @@ class Home extends React.Component {
                         Share your knowledge with the Notepass Community
                     </p>
                     <p>
-                        <Button variant="primary">Upload</Button>
+                        <Button variant="primary" href="/upload">Upload</Button>
                     </p>
                 </Jumbotron>
                 </div>
@@ -31,33 +31,23 @@ class Home extends React.Component {
                 <CardGroup>
                     <Card>
                         <Card.Body>
-                        <Card.Title>Search</Card.Title>
-                        <Card.Text>
-                            Explore our collection
-                        </Card.Text>
-                        <Button variant="primary">Search</Button>
+                        <Card.Title>Explore our collection</Card.Title>
+                        <Button variant="primary" href="/search">Search</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
-                        <Card.Title>Take</Card.Title>
-                        <Card.Text>
-                            Take notes with our in-site editor
-                            <br></br>
-                        </Card.Text>
-                        <Button variant="primary">Compose</Button>
+                        <Card.Title>Take Notes</Card.Title>
+                        <Button variant="primary" href="/take">Notepad</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
-                        <Card.Title>Notebook</Card.Title>
-                        <Card.Text>
-                            View all your saved notes
-                        </Card.Text>
-                        <Button variant="primary">Profile</Button>
+                        <Card.Title>View saved notes</Card.Title>
+                        <Button variant="primary" href="/profile">Notebook</Button>
                         </Card.Body>
                     </Card>
-                    <Card>
+                    {/* <Card>
                         <Card.Body>
                         <Card.Title>Manage</Card.Title>
                         <Card.Text>
@@ -65,7 +55,7 @@ class Home extends React.Component {
                         </Card.Text>
                         <Button variant="primary">Uploads</Button>
                         </Card.Body>
-                    </Card>
+                    </Card> */}
                     </CardGroup>
                 </div>
             </React.Fragment>

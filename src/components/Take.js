@@ -4,10 +4,9 @@ import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
-import {Editor, EditorState,RichUtils} from 'draft-js';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import {Form,Col,Row} from 'react-bootstrap';
+import {Col,Row} from 'react-bootstrap';
 
 class Take extends React.Component {
     constructor(props) {

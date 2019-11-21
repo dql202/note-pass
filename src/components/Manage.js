@@ -38,7 +38,7 @@ class Manage extends React.Component {
                 console.log(err)
             })
     }
-// {this.state.data.map((data, i) => console.log(data.noteID)) }
+
     render() {
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />

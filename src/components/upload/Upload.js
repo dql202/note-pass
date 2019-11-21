@@ -3,6 +3,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom';
+import './Upload.css';
 
 class Upload extends React.Component {
 
@@ -17,7 +18,7 @@ class Upload extends React.Component {
             professor: "",
             course: "",
             topic: "",
-            buttonStates: ["primary", "secondary"],
+            buttonStates: ["success", "danger"],
             schoolSelected: false,
             profs: [],
             noteID: ""
@@ -118,12 +119,12 @@ class Upload extends React.Component {
 
     setPrivate() {
         this.setState({ isPublic: false })
-        this.setState({ buttonStates: ["secondary", "primary"] })
+        this.setState({ buttonStates: ["danger", "success"] })
     }
 
     setPublic() {
         this.setState({ isPublic: true })
-        this.setState({ buttonStates: ["primary", "secondary"] })
+        this.setState({ buttonStates: ["success", "danger"] })
     }
 
     // Returns a list of schools from the database
@@ -153,10 +154,11 @@ class Upload extends React.Component {
         }
         var schools = this.getSchools()
         return (
-            <div>
+            <div className="test">
                 <center>
+                                        <h1>Upload your notes here</h1>
+
                     <form onSubmit={this.onFormSubmit}>
-                        <h1>Upload your notes here</h1>
                         <div style={{ width: '175px' }}>
                             School:
                             <Select options={schools} onChange={this.handleChangeSchool} />
@@ -167,8 +169,8 @@ class Upload extends React.Component {
                         <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
                         <Button variant={this.state.buttonStates[0]} onClick={this.setPublic}>Public</Button>
                         <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
-                        <input type="file" name="upl" ref="file" onChange={this.handleFileChange} /><br /><br />
-                        <button type="submit">Upload</button>
+                        <input type="file" accept=".txt" name="upl" ref="file" onChange={this.handleFileChange} /><br /><br />
+                        <button variant="primary" className="submitButton" type="submit">Upload</button>
                     </form>
                 </center>
             </div>

@@ -28,7 +28,7 @@ class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <Navbar bg="primary" variant="dark" >
+                <Navbar bg="primary" variant="dark">
                     <Navbar.Brand href="/" active="true">
                         <img
                             src={logo}
@@ -43,21 +43,17 @@ class NavBar extends React.Component {
                         <Button variant="outline-light" href="/search">Search for notes</Button>
                     </Form>
                     <Nav className="d-flex justify-content-end">
-                        <NavDropdown title={this.state.data} id="Profile Options">
-                            <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="/manage">Manage Notes</NavDropdown.Item>
+                        <NavDropdown title={USER} id="Profile Options">
+                            <NavDropdown.Item href="/profile">Notebook</NavDropdown.Item>
+                            <NavDropdown.Item href="/manage">Manage Uploads</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
                             <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                         </NavDropdown>
-                        {<Nav.Link href="/manage">Manage</Nav.Link>}
                         <Nav.Link href="/upload">Upload</Nav.Link>
                         <Nav.Link href="/take">Take</Nav.Link>
-                        {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
 
                     </Nav>
                 </Navbar>
-                <br />
             </div>
         );
     }
