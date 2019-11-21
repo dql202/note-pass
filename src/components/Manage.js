@@ -21,14 +21,6 @@ class Manage extends React.Component {
             .then(data => this.setState({ data: data }));
     }
 
-    // downloadNote(id) {
-    //     const FileDownload = require('js-file-download');
-
-    //     Axios.get(`http://localhost/downloadFile`)
-    //         .then((response) => {
-    //             FileDownload(response.data, 'report.csv');
-    //         });
-    // }
 
     render() {
         console.log(this.state.data)

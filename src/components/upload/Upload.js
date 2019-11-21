@@ -167,7 +167,7 @@ class Upload extends React.Component {
                         <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
                         <Button variant={this.state.buttonStates[0]} onClick={this.setPublic}>Public</Button>
                         <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
-                        <input type="file" name="upl" ref="file" onChange={this.handleFileChange} /><br /><br />
+                        <input type="file" accept=".txt" name="upl" ref="file" onChange={this.handleFileChange} /><br /><br />
                         <button type="submit">Upload</button>
                     </form>
                 </center>
