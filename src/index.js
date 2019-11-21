@@ -1,3 +1,7 @@
+import MyAppTest1 from './MyAppTest1';
+import MyAppTest2 from './MyAppTest2';
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -18,7 +22,9 @@ import Upload from './components/upload/Upload'
 import Login from './components/Login';
 import Test from './components/Test';
 import Search from './components/Search';
-import Logout from './components/Logout'
+import Logout from './components/Logout';
+
+import AuthRoute from './AuthRoute';
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -29,6 +35,7 @@ ReactDOM.render((
     <Router>
         <div>
             <NavBar />
+            <MyAppTest2 />
             <Route exact path="/" component={Login} />
             <Route path="/profile" component={ProfData} />
             <Route path="/manage" component={Manage} />
