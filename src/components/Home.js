@@ -3,7 +3,6 @@ import '../App.css';
 import {Jumbotron,CardGroup,Card, Button} from 'react-bootstrap/';
 import {Redirect} from 'react-router-dom';
 
-const USER = window.localStorage.getItem("userID");
 /* 
     The buttons on the homepage that allow users to 
     upload notes, take notes, and manage their notes.
@@ -32,19 +31,19 @@ class Home extends React.Component {
                     <Card>
                         <Card.Body>
                         <Card.Title>Explore our collection</Card.Title>
-                        <Button  variant="primary" href ="/search">Search</Button>
+                        <Button variant="primary" href="/search">Search</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>Take Notes</Card.Title>
-                        <Button  variant="primary" href="/take">Notepad</Button>
+                        <Button variant="primary" href="/take">Notepad</Button>
                         </Card.Body>
                     </Card>
                     <Card>
                         <Card.Body>
                         <Card.Title>View saved notes</Card.Title>
-                        <Button h variant="primary" href="/profile">Notebook</Button>
+                        <Button variant="primary" href="/profile">Notebook</Button>
                         </Card.Body>
                     </Card>
                     {/* <Card>

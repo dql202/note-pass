@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import PDFViewer from './components/PDFViewer/PDFViewer';
 import PDFJSBackend from './backends/pdfjs';
-import { ListGroup, Accordion, Card, Button } from 'react-bootstrap/';
+import { Accordion, Card, Button } from 'react-bootstrap/';
 
 
 

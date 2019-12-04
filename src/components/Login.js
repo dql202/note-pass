@@ -71,11 +71,11 @@ class Login extends React.Component {
                 console.log(response)
                 window.localStorage.setItem("userID", response.data);
                 alert("Your account has been created. You can now log in")
+                this.forceUpdate();
             })
             .catch(function (error) {
                 window.localStorage.setItem("userID", null)
             });
-        this.forceUpdate();
     }
 
     handleChangeNameSignup = event => {

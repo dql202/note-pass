@@ -1,13 +1,5 @@
-import MyAppTest1 from './MyAppTest1';
-import MyAppTest2 from './MyAppTest2';
-
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import "@fortawesome/fontawesome-free/css/all.min.css";
-// import "bootstrap-css-only/css/bootstrap.min.css";
-// import "mdbreact/dist/css/mdb.css";
-//import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 
@@ -24,7 +16,6 @@ import Test from './components/Test';
 import Search from './components/Search';
 import Logout from './components/Logout';
 
-import AuthRoute from './AuthRoute';
 
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.css';
@@ -35,7 +26,6 @@ ReactDOM.render((
     <Router>
         <div>
             <NavBar />
-            <Route path="/pdftest" component={MyAppTest2} />
             <Route exact path="/" component={Login} />
             <Route path="/profile" component={ProfData} />
             <Route path="/manage" component={Manage} />
