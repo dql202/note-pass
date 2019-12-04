@@ -46,43 +46,6 @@ class Take extends React.Component {
     //Called when the user hits submit.
     onFormSubmit(e) {
         e.preventDefault() // Stop form submit
-        /*
-        var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/create"
-        var params = {
-            "ownerID": window.localStorage.getItem("userID"),
-            "schoolID": this.state.school,
-            "professorID": this.state.professor,
-            "public": this.state.isPublic,
-            "course": this.state.course,
-            "topic": this.state.topic
-        }
-        var id = ""
-        let state = this.state
-        axios.post(url, params)
-            .then(function (response) {
-                id = response.data;
-                state["noteID"] = id;
-            })
-            .then((resp) => {
-                // Upload the file to the database
-                const file = new Blob([this.state.text], { type: 'text/html' });
-
-                var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/blob"
-                const fileObj = new FormData();
-                fileObj.append('file', file)
-                fileObj.append("noteID", this.state.noteID)
-                axios.post(url, fileObj)
-                    .then(function (response) {
-                        alert("Your file has been uploaded.")
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-        */
         const element = document.createElement("a");
         const file = new Blob([this.state.text], { type: 'text/html' });
         element.href = URL.createObjectURL(file);
@@ -161,7 +124,6 @@ class Take extends React.Component {
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
-        var schools = this.getSchools()
         return (
             <React.Fragment>
                 <div>
@@ -189,11 +151,6 @@ class Take extends React.Component {
 
                 </div>
             </React.Fragment>
-
-
-
-
-
         )
     }
 }

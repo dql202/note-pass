@@ -44,6 +44,7 @@ class Login extends React.Component {
                     console.log(res.data)
                     window.localStorage.setItem("userID", res.data.username)
                     this.forceUpdate()
+                    
                 }
             })
     }

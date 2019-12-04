@@ -8,7 +8,6 @@ import logo from '../logo.png'
 */
 
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
-const USER = window.localStorage.getItem("userID");
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -18,10 +17,11 @@ class NavBar extends React.Component {
         };
     }
     componentDidMount() {
-        if (USER === "") { 
-            this.setState({ data: "Profile"})
-            return; }
-        fetch(API + USER)
+        if (window.localStorage.getItem("userID") === "null") { 
+            this.setState({ data: ""})
+            return; 
+        }
+        fetch(API + window.localStorage.getItem("userID"))
             .then(response => response.json())
             .then(data => this.setState({ data: data.username }));
     }
@@ -43,7 +43,7 @@ class NavBar extends React.Component {
                         <Button variant="outline-light" href="/search">Search for notes</Button>
                     </Form>
                     <Nav className="d-flex justify-content-end">
-                        <NavDropdown title={USER} id="Profile Options">
+                        <NavDropdown title={this.state.data} id="Profile Options">
                             <NavDropdown.Item href="/profile">Notebook</NavDropdown.Item>
                             <NavDropdown.Item href="/manage">Manage Uploads</NavDropdown.Item>
                             <NavDropdown.Divider />
