@@ -1,15 +1,13 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react'
-import { ListGroup, Accordion, Card, Button, Row, Col } from 'react-bootstrap/';
+import { Accordion, Card, Button, Row, Col } from 'react-bootstrap/';
 import './Profile.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 const API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/user/read/?userID=';
-const DEFAULT_QUERY = '1b8c1e94-ab75-4398-90d6-e81ce4dda21c';
-const NOTES_API='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/all'
-const NOTES_API2='http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/mine/?userID='
-const SCHOOL_API='http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID='
+const NOTES_API2 = 'http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/mine/?userID='
+const STARRED_API = 'http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/starredBy/?userID='
 
 
 //Displays all uploaded and starred notes
@@ -20,117 +18,206 @@ class Profile extends React.Component {
             data: [],
             schoolInfo: [],
         };
+        this.getProfile = this.getProfile.bind(this);
+        this.getSchool = this.getSchool.bind(this);
+
+        this.getProfile()
+        this.getSchool(this.state.data.schoolID)
     }
-    componentDidMount() {
+
+    getProfile() {
         fetch(API + window.localStorage.userID)
-          .then(response => response.json())
-          .then(data => this.setState({ data:data }))
-      }
-    
-    getSchool(id) {
-        const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID="+ id
-        fetch(url)
-          .then(response => response.json())
-          .then(data => this.setState({ schoolInfo:data }))
+            .then(response => response.json())
+            .then(data => this.setState({ data: data }))
     }
-    
+
+    getSchool(id) {
+        const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/school/read/?schoolID=" + id
+        fetch(url)
+            .then(response => response.json())
+            .then(data => this.setState({ schoolInfo: data }))
+    }
+
     render() {
         const profile = this.state.data;
-        this.getSchool(profile.schoolID)
+        console.log('profile');
         return (
             <ul>
-                <h1><center>{profile.username}</center></h1> 
+                <h1><center>{profile.username}</center></h1>
                 <p><center>{this.state.schoolInfo.school}</center></p>
-
             </ul>
         );
     }
 }
+
 class Profile2 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
+            downloadLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/blob/?noteID=",
+            deleteLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/delete/?noteID="
         };
-      }
-      componentDidMount() {
-        fetch(NOTES_API2+window.localStorage.userID)
+        this.getData = this.getData.bind(this);
+        this.downloadPdfFile = this.downloadPdfFile.bind(this);
+        this.deleteFile = this.deleteFile.bind(this);
+
+        this.getData();
+    }
+
+    getData() {
+        fetch(NOTES_API2 + window.localStorage.userID)
             .then(response => (response.json()))
             .then(data => this.setState({ data: data }));
     }
+
+    downloadPdfFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        console.log(this.state.downloadLink + id)
+        axios({
+            method: 'get',
+            url: this.state.downloadLink + id,
+            responseType: 'blob'
+          }).then(res => {
+                console.log(res)
+                const element = document.createElement("a");
+                const file = new Blob([res.data], { type: 'application/pdf' });
+                console.log(file);
+                element.href = URL.createObjectURL(file);
+                window.open(element.href)
+                //element.download = "Note";
+                //document.body.appendChild(element);
+                //element.click();
+            })
+            .catch(function (err) {
+                console.log(err)
+            })}
+
+    deleteFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        axios.delete(this.state.deleteLink + id).then(res => {
+            window.location.reload(true)
+        })
+    }
+
     render() {
         if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
+        console.log("In Profile2")
         return (
-            <React.Fragment>
-                <div>
-                    <h2>My Uploaded Notes</h2>
-                    <Accordion>
-                        {
-                            this.state.data.map((data, i) =>
-                                <Card key={i}>
-                                    <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey={i}>{data.topic}</Accordion.Toggle>
-                                    </Card.Header>
-                                    <Accordion.Collapse eventKey={i}>
-                                        <Card.Body>{data.time.slice(0, 10)} </Card.Body>
-                                    </Accordion.Collapse>
-                                </Card>)
-                        }
-                    </Accordion>
-                </div>
-            </React.Fragment>
-
-
+            <div>
+                <h2>My Uploaded Notes</h2>
+                <Accordion>
+                    {this.state.data.map((data, i) =>
+                        <Card key={i}>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey={i}>{data.topic}</Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey={i}>
+                                <Card.Body>
+                                    <p>
+                                        {"Date: " + data.time.slice(0, 10)}<br></br>
+                                        {"Course: " + data.course}<br></br>
+                                        {"Privacy: "}
+                                        {(data.public) ? "Public" : "Private"}<br></br>
+                                    </p>
+                                    <button onClick={this.downloadPdfFile} arg={data.noteID}>Download</button>
+                                    <button onClick={this.deleteFile} arg={data.noteID}>Delete</button><br></br>
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>)
+                    }
+                </Accordion>
+            </div>
         )
     }
 }
+
 class Profile3 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
+            downloadLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/blob/?noteID="
         };
-      }
-      componentDidMount() {
-        fetch(NOTES_API2+window.localStorage.userID)
+        this.downloadPdfFile = this.downloadPdfFile.bind(this);
+        this.getData = this.getData.bind(this);
+
+        this.getData();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.state.data !== nextState.data;
+    }
+
+    getData() {
+        fetch(STARRED_API + window.localStorage.userID)
             .then(response => (response.json()))
             .then(data => this.setState({ data: data }));
     }
+
+    downloadPdfFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        console.log(this.state.downloadLink + id)
+        axios({
+            method: 'get',
+            url: this.state.downloadLink + id,
+            responseType: 'blob'
+          }).then(res => {
+                console.log(res)
+                const element = document.createElement("a");
+                const file = new Blob([res.data], { type: 'application/pdf' });
+                console.log(file);
+                element.href = URL.createObjectURL(file);
+                window.open(element.href)
+                //element.download = "Note";
+                //document.body.appendChild(element);
+                //element.click();
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
+    }
+
     render() {
+        console.log("In Profile3")
         return (
-            <React.Fragment>
-                <div>
-                    <h2>My Starred Notes</h2>
-                </div>
-                <div>
-                    <p>Coming Soon...</p>
-                    {/* <ListGroup variant='flush' >
-                        <ListGroup.Item action href="#link1">
-                            New York University
-                        </ListGroup.Item>
-                        <ListGroup.Item action href="#link2">
-                            CM 1004 A1
-                        </ListGroup.Item>
-                        <ListGroup.Item action href="#link3">
-                            Data Structures Study Group
-                        </ListGroup.Item>
-                    </ListGroup> */}
-                </div>
-            </React.Fragment> 
-
-
-
-
-        )
+            <div>
+                <h2>My Starred Notes</h2>
+                <Accordion>
+                    {
+                        this.state.data.map((data, i) =>
+                            <Card key={i}>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey={i}>{data.topic}</Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey={i}>
+                                    <Card.Body>
+                                        <p>
+                                            {"Date: " + data.time.slice(0, 10)}<br></br>
+                                            {"Course: " + data.course}<br></br>
+                                        </p>
+                                        <button onClick={this.downloadPdfFile} arg={data.noteID}>Download</button>
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>)
+                    }
+                </Accordion>
+            </div>
+        );
     }
 }
+
 class ProfData extends React.Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.state !== nextState;
+    }
+
     render() {
-        // if (window.localStorage.getItem("userID") !== "") {
-        //     return <Redirect to='/homepage' />
-        // }
+        if (window.localStorage.getItem("userID") === "") {
+            return <Redirect to='/' />
+        }
         return (
             <React.Fragment>
                 <div>
@@ -147,19 +234,11 @@ class ProfData extends React.Component {
                         <Col>
                             <Profile3 />
                         </Col>
-                        
                     </Row>
-                    
                     <br></br>
                     <br></br>
                 </div>
-                {/* <div class="profile3">
-                    <Profile3 />
-
-                </div> */}
-
             </React.Fragment>
-
         );
     }
 }
