@@ -150,7 +150,7 @@ class Take extends React.Component {
 
 
     render() {
-        if (window.localStorage.getItem("userID") === "") {
+        if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
         var schools = this.getSchools()
