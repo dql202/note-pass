@@ -164,7 +164,7 @@ class Upload extends React.Component {
         return (
             <div className="info">
                 <center>
-                                        <h1>Upload your notes here</h1>
+                    <h1>Upload your notes here</h1>
 
                     <form onSubmit={this.onFormSubmit}>
                         <div style={{ width: '175px' }}>

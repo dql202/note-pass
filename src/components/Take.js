@@ -2,8 +2,6 @@ import React from 'react'
 import "./Draft.css"
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
-import Button from 'react-bootstrap/Button';
-import Select from 'react-select';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Col, Row } from 'react-bootstrap';
