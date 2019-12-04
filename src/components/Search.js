@@ -12,15 +12,17 @@ class Search extends React.Component {
         this.state = {
             topics: [],
             profs: [],
+            schools : [],
             notes: [],
             courses: [],
-            schools: [],
             school: "",
             professor: "",
             topic: "",
             professorSelected: false,
             schoolSelected: false,
-            noteSelected: false
+            noteSelected: false,
+            downloadLink : "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/blob/?noteID=",
+            saveLink : "http://notepass.us-east-2.elasticbeanstalk.com/api/note/star"
         }
 
         this.sendQuery = this.sendQuery.bind(this);
@@ -33,7 +35,10 @@ class Search extends React.Component {
         this.onSearch = this.onSearch.bind(this)
         this.search= this.search.bind(this)
         this.clear= this.clear.bind(this)
+        this.downloadPdfFile = this.downloadPdfFile.bind(this)
+        this.saveTxtFile = this.saveTxtFile.bind(this)
 
+        this.getSchools()
     }
 
     // Call API with the current filters set.
@@ -48,7 +53,6 @@ class Search extends React.Component {
             profs: this.getProfs(option.value)
         });
         window.sessionStorage.setItem("school",option.value)
-        console.log("State.profs", this.state.profs)
     }
 
     handleChangeProfessor(option) {
@@ -73,8 +77,8 @@ class Search extends React.Component {
         axios.get(url)
             .then(res => {
                 res.data.map((item) => schools.push({ "label": item.school, "value": item.schoolID }));
-            })
-        return schools
+                this.setState({schools : schools })
+            })        
     }
     getProfs(id) {
         const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/prof/read/from/?schoolID=" + id
@@ -93,9 +97,9 @@ class Search extends React.Component {
             .then(res => {
                 res.data.map((item) => topics.push({ "label": item.topic, "value": item.noteID }));
             })
-        console.log(topics)
         return topics
     }
+
     onSearch(e) {
         e.preventDefault()
         if (this.state.noteSelected) {
@@ -127,7 +131,6 @@ class Search extends React.Component {
                     this.setState({ notes: res.data })
                 })
         }
-        console.log(this.state.notes)
     }
     
     //clears the current fields
@@ -141,14 +144,12 @@ class Search extends React.Component {
 
     //displays notes based off which fields have been selected
     search() {
-
-        if (window.sessionStorage.getItem("topic")!=null) {
+        if (window.sessionStorage.getItem("topic") != null) {
             const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/?noteID=" + window.sessionStorage.getItem("topic")
             axios.get(url)
                 .then(res => {
                     this.setState({ notes: [res.data] })
                 })
-
         }
         else if (window.sessionStorage.getItem("professor")!=null) {
             const url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/read/taughtBy/?profID=" + window.sessionStorage.getItem("professor") + "&userID=" + window.localStorage.userID
@@ -172,23 +173,59 @@ class Search extends React.Component {
                 })
         } 
     }
-    render() {
 
-        if (window.localStorage.getItem("userID") === "") {
+    downloadPdfFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        console.log(this.state.downloadLink + id)
+        axios({
+            method: 'get',
+            url: this.state.downloadLink + id,
+            responseType: 'blob'
+          }).then(res => {
+                console.log(res)
+                const element = document.createElement("a");
+                const file = new Blob([res.data], { type: 'application/pdf' });
+                console.log(file);
+                element.href = URL.createObjectURL(file);
+                window.open(element.href)
+                //element.download = "Note";
+                //document.body.appendChild(element);
+                //element.click();
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
+        }
+
+    saveTxtFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        var params = {
+            userID : window.localStorage.getItem("userID"),
+            noteID : id
+        }
+        axios.post(this.state.saveLink, params)
+            .then(res => {
+                alert("This note is now saved to your profile")
+            })
+            .catch(function (err) {
+                console.log(err)
+            })
+    }
+
+    render() {
+        if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
         this.search()
-        var schools = this.getSchools()
+
         return (
-            //Topic, Tag, School, Course, Professor, 
             <div>
                 <Row>
                     <Col>
                     <form onSubmit={this.onSearch}>
-                    {/* <h1>Upload your notes here</h1> */}
-                    <div style={{ width: '400px' }}>
+                       <div style={{ width: '400px' }}>
                         School:
-                            <Select options={schools} onChange={this.handleChangeSchool} />
+                            <Select options={this.state.schools} onChange={this.handleChangeSchool} />
                         Professor:
                             <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true} />
                         Topic:
@@ -212,9 +249,9 @@ class Search extends React.Component {
                                             <Card.Body>
                                                 {data.time.slice(0, 10)}
                                                 <br></br>
-                                                <a href="#download">Download</a>
+                                                <button onClick={this.downloadPdfFile} arg={data.noteID}>Download</button>
                                                 <br></br>
-                                                <a href="#save">Save</a>
+                                                <button onClick={this.saveTxtFile} arg={data.noteID}>Save</button>
                                             </Card.Body>
                                         </Accordion.Collapse>
                                     </Card>)

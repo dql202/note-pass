@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { Redirect } from 'react-router-dom';
 import './Upload.css';
 
+
 class Upload extends React.Component {
 
     constructor(props) {
@@ -18,7 +19,7 @@ class Upload extends React.Component {
             professor: "",
             course: "",
             topic: "",
-            buttonStates: ["success", "danger"],
+            buttonStates: ["success", "secondary"],
             schoolSelected: false,
             profs: [],
             noteID: ""
@@ -62,13 +63,19 @@ class Upload extends React.Component {
                 const fileObj = new FormData();
                 fileObj.append('file', state.file)
                 fileObj.append("noteID", state.noteID)
-                axios.post(url, fileObj)
+                var fileParams = {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+                axios.post(url, fileObj, fileParams)
                     .then(function (response) {
-                        alert("Your file has been uploaded.")
                     })
                     .catch(function (error) {
                         console.log(error);
                     })
+            })
+            .then(function (resp) {
+                alert("Your note has been uploaded")
+                window.location.reload(true)
             })
             .catch(function (error) {
                 console.log(error);
@@ -90,6 +97,7 @@ class Upload extends React.Component {
     }
     // Store the file the user uploaded in a state variable
     handleFileChange = (event) => {
+        console.log(event.target.files[0])
         this.setState({ file: event.target.files[0] })
     }
 
@@ -119,12 +127,12 @@ class Upload extends React.Component {
 
     setPrivate() {
         this.setState({ isPublic: false })
-        this.setState({ buttonStates: ["danger", "success"] })
+        this.setState({ buttonStates: ["secondary", "danger"] })
     }
 
     setPublic() {
         this.setState({ isPublic: true })
-        this.setState({ buttonStates: ["success", "danger"] })
+        this.setState({ buttonStates: ["success", "secondary"] })
     }
 
     // Returns a list of schools from the database
@@ -154,7 +162,7 @@ class Upload extends React.Component {
         }
         var schools = this.getSchools()
         return (
-            <div className="test">
+            <div className="info">
                 <center>
                                         <h1>Upload your notes here</h1>
 
@@ -169,7 +177,7 @@ class Upload extends React.Component {
                         <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
                         <Button variant={this.state.buttonStates[0]} onClick={this.setPublic}>Public</Button>
                         <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
-                        <input type="file" accept=".txt" name="upl" ref="file" onChange={this.handleFileChange} /><br /><br />
+                        <input type="file" name="upl" ref="file" enctype="multipart/form-data" onChange={this.handleFileChange} /><br /><br />
                         <button variant="primary" className="submitButton" type="submit">Upload</button>
                     </form>
                 </center>

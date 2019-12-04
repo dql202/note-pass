@@ -12,7 +12,8 @@ class Manage extends React.Component {
             deleteLink: "http://notepass.us-east-2.elasticbeanstalk.com/api/note/delete/?noteID="
         };
 
-        this.downloadTxtFile = this.downloadTxtFile.bind(this);
+        this.downloadPdfFile = this.downloadPdfFile.bind(this);
+        this.deleteFile = this.deleteFile.bind(this);
     }
 
     // Get all the notes uploaded by the user that is logged in.
@@ -23,20 +24,34 @@ class Manage extends React.Component {
             .then(data => this.setState({ data: data }));
     }
 
-    downloadTxtFile = (event) => {
-        axios.get(this.state.downloadLink + event.target.getAttribute('arg'))
-            .then(res => {
+    downloadPdfFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        console.log(this.state.downloadLink + id)
+        axios({
+            method: 'get',
+            url: this.state.downloadLink + id,
+            responseType: 'blob'
+          }).then(res => {
                 console.log(res)
                 const element = document.createElement("a");
-                const file = new Blob([res.data], { type: 'text/plain' });
+                const file = new Blob([res.data], { type: 'application/pdf' });
+                console.log(file);
                 element.href = URL.createObjectURL(file);
-                element.download = "Note.txt";
-                document.body.appendChild(element);
-                element.click();
+                window.open(element.href)
+                //element.download = "Note";
+                //document.body.appendChild(element);
+                //element.click();
             })
             .catch(function (err) {
                 console.log(err)
             })
+    }
+
+    deleteFile = (event) => {
+        var id = event.target.getAttribute('arg')
+        axios.delete(this.state.deleteLink + id).then( res => {
+            window.location.reload(true)
+        })
     }
 
     render() {
@@ -54,9 +69,14 @@ class Manage extends React.Component {
                             </Card.Header>
                             <Accordion.Collapse eventKey={i}>
                                 <Card.Body>
-                                    {data.time.slice(0, 10)}
-                                    <p></p>
-                                    <button onClick={this.downloadTxtFile} arg={data.noteID}>Download</button>
+                                    <p>
+                                        {"Date: " + data.time.slice(0, 10)}<br></br>
+                                        {"Course: " + data.course}<br></br>
+                                        {"Privacy: "}
+                                        {(data.public) ? "Public" : "Private"}<br></br>
+                                    </p>
+                                    <button onClick={this.downloadPdfFile} arg={data.noteID}>Download</button>
+                                    <button onClick={this.deleteFile} arg={data.noteID}>Delete</button><br></br>
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>)

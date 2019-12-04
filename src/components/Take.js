@@ -6,13 +6,14 @@ import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import {Col,Row} from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
+import "./upload/Upload.css";
 
 class Take extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { 
-            text: '' ,
+        this.state = {
+            text: '',
             file: null,
             note: "",
             owner: "",
@@ -21,11 +22,11 @@ class Take extends React.Component {
             professor: "",
             course: "",
             topic: "",
-            buttonStates: ["primary", "secondary"],
-            schoolSelected : false,
-            profs : [],
-            fileID : ""
-        } 
+            buttonStates: ["success", "secondary"],
+            schoolSelected: false,
+            profs: [],
+            fileID: ""
+        }
         this.handleChange = this.handleChange.bind(this)
         this.onFormSubmit = this.onFormSubmit.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
@@ -38,14 +39,16 @@ class Take extends React.Component {
         this.setPublic = this.setPublic.bind(this)
         this.getSchools = this.getSchools.bind(this)
         this.getProfs = this.getProfs.bind(this)
-      }
-    
+    }
+
     handleChange(value) {
         this.setState({ text: value })
-      }
-       //Called when the user hits submit.
+    }
+    
+    //Called when the user hits submit.
     onFormSubmit(e) {
         e.preventDefault() // Stop form submit
+        /*
         var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/create"
         var params = {
             "ownerID": window.localStorage.getItem("userID"),
@@ -64,7 +67,7 @@ class Take extends React.Component {
             })
             .then((resp) => {
                 // Upload the file to the database
-                const file = new Blob([this.state.text], { type: 'text/plain' });
+                const file = new Blob([this.state.text], { type: 'text/html' });
 
                 var url = "http://notepass.us-east-2.elasticbeanstalk.com/api/note/blob"
                 const fileObj = new FormData();
@@ -81,11 +84,18 @@ class Take extends React.Component {
             .catch(function (error) {
                 console.log(error);
             })
+        */
+        const element = document.createElement("a");
+        const file = new Blob([this.state.text], { type: 'text/html' });
+        element.href = URL.createObjectURL(file);
+        element.download = "Note";
+        document.body.appendChild(element);
+        element.click();
     }
 
     // Store the file the user uploaded in a state variable
     handleFileChange = (event) => {
-        this.setState({ file : event.target.files[0]})
+        this.setState({ file: event.target.files[0] })
     }
 
     // Called when the user selects a file to upload.
@@ -94,9 +104,10 @@ class Take extends React.Component {
     }
 
     handleChangeSchool(option) {
-        this.setState({ school : option.value,
-                        schoolSelected : true,
-                        profs : this.getProfs(option.value)
+        this.setState({
+            school: option.value,
+            schoolSelected: true,
+            profs: this.getProfs(option.value)
         })
     }
 
@@ -118,12 +129,12 @@ class Take extends React.Component {
 
     setPrivate() {
         this.setState({ isPublic: false })
-        this.setState({ buttonStates: ["secondary", "primary"] })
+        this.setState({ buttonStates: ["secondary", "danger"] })
     }
 
     setPublic() {
         this.setState({ isPublic: true })
-        this.setState({ buttonStates: ["primary", "secondary"] })
+        this.setState({ buttonStates: ["success", "secondarye"] })
     }
 
     // Returns a list of schools from the database
@@ -132,7 +143,7 @@ class Take extends React.Component {
         var schools = []
         axios.get(url)
             .then(res => {
-                res.data.map((item) => schools.push({"label" : item.school, "value" : item.schoolID}));
+                res.data.map((item) => schools.push({ "label": item.school, "value": item.schoolID }));
             })
         return schools
     }
@@ -142,65 +153,51 @@ class Take extends React.Component {
         var profs = []
         axios.get(url)
             .then(res => {
-                res.data.map((item) => profs.push({"label" : item.name, "value" : item.profID}));
+                res.data.map((item) => profs.push({ "label": item.name, "value": item.profID }));
             })
         return profs
     }
 
 
     render() {
-        if (window.localStorage.getItem("userID") === "") {
+        if (window.localStorage.getItem("userID") === "null") {
             return <Redirect to='/' />
         }
         var schools = this.getSchools()
         return (
             <React.Fragment>
                 <div>
-                <center>
-                    <h1>Take Note of Something...
-                    </h1>
-                    <Row>
-                        <Col>
-                        <form onSubmit={this.onFormSubmit}>
-                            <div style={{ width: '175px' }}>
-                                School:
-                                <Select options={schools} onChange={this.handleChangeSchool} />
-                                    Professor:
-                                <Select options={this.state.profs} onChange={this.handleChangeProfessor} disabled={this.state.schoolSelected ? null : true}/>
-                            </div>
-                            <label>Course:<br /><input type="text" value={this.state.course} onChange={this.handleChangeCourse} /></label><br />
-                            <label>Topic:<br /><input type="text" value={this.state.topic} onChange={this.handleChangeTopic} /></label><br />
-                            <Button variant={this.state.buttonStates[0]} onClick={this.setPublic}>Public</Button>
-                            <Button variant={this.state.buttonStates[1]} onClick={this.setPrivate}>Private</Button><br /><br />
-                            
-                            <br></br>
-                            <button type="submit">Save note</button>
-                        </form>
-                        </Col>
-                        <div className="textinfo">
+                    <center>
+                        <h1>Take Note of Something...</h1>
+                    </center>
+                        <Row>
+                            <Col></Col>
+                            <div className="textinfo">
                                 <ReactQuill value={this.state.text}
-                                onChange={this.handleChange} />
-                            
+                                    onChange={this.handleChange} />
                             </div>
-                        <Col>
+                            <Col></Col>
+                        </Row>
+                        <Row>
+                            <Col></Col>
+                            <form onSubmit={this.onFormSubmit}>
+                                <button className="submitButton" type="submit">Save note</button>
+                            </form>
+                            <Col></Col>
+                        </Row>
+                </div>
+                <div className="textpageWrapper">
 
-                        </Col>
-                    </Row>
-                    
-                </center>
-            </div>
-            <div className="textpageWrapper">
-                
-                
-            </div>
+
+                </div>
             </React.Fragment>
 
-            
 
-           
-          
+
+
+
         )
-      }
+    }
 }
 
 export default Take
