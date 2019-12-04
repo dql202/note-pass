@@ -17,7 +17,7 @@ class NavBar extends React.Component {
         };
     }
     componentDidMount() {
-        if (window.localStorage.getItem("userID") === "null") { 
+        if (window.localStorage.getItem("userID") === null) { 
             this.setState({ data: ""})
             return; 
         }

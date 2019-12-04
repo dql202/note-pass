@@ -101,7 +101,7 @@ class Profile2 extends React.Component {
     }
 
     render() {
-        if (window.localStorage.getItem("userID") === "null") {
+        if (window.localStorage.getItem("userID") === null) {
             return <Redirect to='/' />
         }
         console.log("In Profile2")

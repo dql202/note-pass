@@ -9,7 +9,7 @@ import {Redirect} from 'react-router-dom';
 */
 class Home extends React.Component {
     render() {
-        if (window.localStorage.getItem("userID") === "null") {
+        if (window.localStorage.getItem("userID") === null) {
             return <Redirect to='/' />
         }
         return (

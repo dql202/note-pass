@@ -213,7 +213,7 @@ class Search extends React.Component {
     }
 
     render() {
-        if (window.localStorage.getItem("userID") === "null") {
+        if (window.localStorage.getItem("userID") === null) {
             return <Redirect to='/' />
         }
         this.search()
